@@ -14,27 +14,27 @@
 #include <stdio.h>
 static void	printrooms(t_lem_in *lem_in)
 {
-	t_room	*tmp_r;
-	t_link	*tmp_l;
+	t_graph	*node;
+	t_edge	*edge;
 
-	tmp_r = lem_in->room; 
+	node = lem_in->adj_list; 
 	printf("ants\t%ld\n", lem_in->ants);
-	printf("start\t%s\n", lem_in->start);
-	printf("end\t%s\n\n", lem_in->end);
-	while (lem_in->room)
+	printf("start\t%s\n", lem_in->start_id);
+	printf("end\t%s\n\n", lem_in->end_id);
+	while (lem_in->adj_list)
 	{
-		printf("room  %s\n", lem_in->room->id);
-		tmp_l = lem_in->room->links;
-		while (lem_in->room->links)
+		printf("node  %s\n", lem_in->adj_list->node_id);
+		edge = lem_in->adj_list->edges;
+		while (lem_in->adj_list->edges)
 		{
-			printf("\tlink-%s\n", lem_in->room->links->link);
-			lem_in->room->links = lem_in->room->links->next;
+			printf("\tedge-%s\n", lem_in->adj_list->edges->dest_id);
+			lem_in->adj_list->edges = lem_in->adj_list->edges->next;
 		}
-		lem_in->room->links = tmp_l;
+		lem_in->adj_list->edges = edge;
 		printf("\n");
-		lem_in->room = lem_in->room->next;
+		lem_in->adj_list = lem_in->adj_list->next;
 	}
-	lem_in->room = tmp_r;
+	lem_in->adj_list = node;
 }
 
 void	printfarm(t_farm *farm)
@@ -55,7 +55,7 @@ void	printfarm(t_farm *farm)
 
 int		validate(t_lem_in *lem_in)
 {
-	if (!(lem_in->ants || lem_in->start || lem_in->end || lem_in->room))
+	if (!(lem_in->ants || lem_in->start_id || lem_in->end_id || lem_in->adj_list))
 		return (1);
 	printrooms(lem_in);
 	printfarm(lem_in->farm);

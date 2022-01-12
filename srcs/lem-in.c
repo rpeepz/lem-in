@@ -14,52 +14,25 @@
 
 void	die(t_lem_in *lem_in)
 {
-	t_room	*tmp_r;
-	t_link	*tmp_l;
+	t_graph	*graph;
+	t_edge	*edge;
 
-	while (lem_in->room)
+	while (lem_in->adj_list)
 	{
-		tmp_r = lem_in->room->next;
-		while (lem_in->room->links)
+		graph = lem_in->adj_list->next;
+		while (lem_in->adj_list->edges)
 		{
-			tmp_l = lem_in->room->links->next;
-			ft_memdel((void**)&lem_in->room->links->link);
-			ft_memdel((void**)&lem_in->room->links);
-			lem_in->room->links = tmp_l;
+			edge = lem_in->adj_list->edges->next;
+			ft_memdel((void**)&lem_in->adj_list->edges->dest_id);
+			ft_memdel((void**)&lem_in->adj_list->edges);
+			lem_in->adj_list->edges = edge;
 		}
-		ft_memdel((void**)&lem_in->room->id);
-		ft_memdel((void**)&lem_in->room);
-		lem_in->room = tmp_r;
+		ft_memdel((void**)&lem_in->adj_list->node_id);
+		ft_memdel((void**)&lem_in->adj_list);
+		lem_in->adj_list = graph;
 	}
-	ft_memdel((void**)&lem_in->start);
-	ft_memdel((void**)&lem_in->end);
-}
-
-int		assign_farm(char *line, t_lem_in *lem_in)
-{
-	if (ft_strrchri(line, ' ') && (!(line[0] == '#' || line[0] == 'L')))
-		build_room(line, lem_in);
-	if (lem_in->check_start)
-	{
-		if (lem_in->start)
-			return (1);
-		lem_in->start = ft_strndup(line, ft_strchri(line, ' '));
-		lem_in->check_start = 0;
-	}
-	else if (lem_in->check_end)
-	{
-		if (lem_in->end)
-			return (1);
-		lem_in->end = ft_strndup(line, ft_strchri(line, ' '));
-		lem_in->check_end = 0;
-	}
-	else if (!ft_strncmp(line, START, sizeof(START) - 1))
-		lem_in->check_start = 1;
-	else if (!ft_strncmp(line, END, sizeof(END) - 1))
-		lem_in->check_end = 1;
-	else if (ft_strrchri(line, '-'))
-		build_link(line, lem_in);
-	return (0);
+	ft_memdel((void**)&lem_in->start_id);
+	ft_memdel((void**)&lem_in->end_id);
 }
 
 int		get_file(t_lem_in *lem_in)
@@ -77,7 +50,7 @@ int		get_file(t_lem_in *lem_in)
 				break ;
 			lem_in->ants = ft_atoull(buf);
 		}
-		else if (assign_farm(buf, lem_in))
+		else if (create_graph(buf, lem_in))
 		{
 			err = 1;
 			break ;
@@ -98,7 +71,7 @@ int		main(void)
 		ft_putendl("ERROR");
 	else
 	{
-		build_tree(&lem_in);
+		build_graph1(&lem_in);
 		validate(&lem_in);
 		run_ants(&lem_in);
 	}

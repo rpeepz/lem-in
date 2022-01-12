@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_tree.c                                       :+:      :+:    :+:   */
+/*   build_graph.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 15:26:23 by rpapagna          #+#    #+#             */
-/*   Updated: 2021/12/18 19:12:29 by rpapagna         ###   ########.fr       */
+/*   Updated: 2022/01/29 19:12:15 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 static void		push_start_to_front(t_lem_in *lem_in)
 {
-	t_room	*head;
-	t_room	*prev;
-	t_room	*tmp;
+	t_graph	*head;
+	t_graph	*prev;
+	t_graph	*tmp;
 
-	head = lem_in->room;
-	while (ft_strcmp(lem_in->start, lem_in->room->id))
+	head = lem_in->adj_list;
+	while (ft_strcmp(lem_in->start_id, lem_in->adj_list->node_id))
 	{
-		prev = lem_in->room;
-		lem_in->room = lem_in->room->next;
+		prev = lem_in->adj_list;
+		lem_in->adj_list = lem_in->adj_list->next;
 	}
-	prev->next = lem_in->room->next;
+	prev->next = lem_in->adj_list->next;
 	tmp = head;
-	lem_in->room->next = tmp;
+	lem_in->adj_list->next = tmp;
 }
 
-static t_farm	*check_parents(t_farm *head, t_farm* parent, t_link *link)
+static t_farm	*check_parents(t_farm *head, t_farm* parent, t_edge *edge)
 {
 	int		i;
 	int		j;
 	t_farm	*farm;
-	t_link	*tmp_l;
+	t_edge	*tmp_l;
 
 	farm = head;
 	if (farm)
@@ -42,38 +42,38 @@ static t_farm	*check_parents(t_farm *head, t_farm* parent, t_link *link)
 		i = -1;
 		while (++i < farm->child_count)
 		{
-			tmp_l = link;
+			tmp_l = edge;
 			while (tmp_l)
 			{
-				if (!ft_strcmp(farm->id, tmp_l->link))
+				if (!ft_strcmp(farm->id, tmp_l->dest_id))
 					return (farm);
 				tmp_l = tmp_l->next;
 			}
 		}
 		j = -1;
 		while (++j < farm->child_count)
-			return (check_parents(farm->child[j], parent, link));
+			return (check_parents(farm->child[j], parent, edge));
 	}
 	return (NULL);
 }
 
-static void		create_children(t_farm *head, t_farm *parent, t_link *link)
+static void		create_children(t_farm *head, t_farm *parent, t_edge *edge)
 {
 	int		n;
-	t_link	*tmp_l;
+	t_edge	*tmp_l;
 	t_farm	*farm;
 
 	n = 0;
-	tmp_l = link;
+	tmp_l = edge;
 	while (n < parent->child_count)
 	{
-		farm = check_parents(head, parent, link);
+		farm = check_parents(head, parent, edge);
 		if (farm)
 			parent->child[n] = farm;
 		else
 		{
 			parent->child[n] = (t_farm*)ft_memalloc(sizeof(*parent->child[n]));
-			parent->child[n]->id = ft_strdup(tmp_l->link);
+			parent->child[n]->id = ft_strdup(tmp_l->dest_id);
 			parent->child[n]->parent = parent;
 		}
 		tmp_l = tmp_l->next;
@@ -81,25 +81,25 @@ static void		create_children(t_farm *head, t_farm *parent, t_link *link)
 	}
 }
 
-static void		count_links(t_farm *parent, t_room *room)
+static void		count_edges(t_farm *parent, t_graph *node)
 {
-	t_link	*links;
+	t_edge	*edge;
 
 	if (parent->child_count)
 		return ;
-	links = room->links;
-	while (links)
+	edge = node->edges;
+	while (edge)
 	{
 		++parent->child_count;
-		links = links->next;
+		edge = edge->next;
 	}
 	parent->child =\
 	(t_farm**)ft_memalloc(sizeof(*parent->child) * (parent->child_count + 1));
 }
 
-static void		assign_tree(t_farm *head, int n, t_farm **kids, t_room *rooms)
+static void		assign_tree(t_farm *head, int n, t_farm **kids, t_graph *nodes)
 {
-	t_room	*room;
+	t_graph	*node;
 	t_farm	*child;
 	t_farm	**children;
 	int		i;
@@ -110,26 +110,26 @@ static void		assign_tree(t_farm *head, int n, t_farm **kids, t_room *rooms)
 		child = kids[i];
 		if (child->child_count)
 			continue ;
-		room = rooms;
-		while (ft_strcmp(child->id, room->id))
-			room = room->next;
-		count_links(child, room);
-		create_children(head, child, room->links);
+		node = nodes;
+		while (ft_strcmp(child->id, node->node_id))
+			node = node->next;
+		count_edges(child, node);
+		create_children(head, child, node->edges);
 		children = child->child;
-		assign_tree(head, child->child_count, children, rooms);
+		assign_tree(head, child->child_count, children, nodes);
 	}
 }
 
-void			build_tree(t_lem_in *lem_in)
+void			build_graph1(t_lem_in *lem_in)
 {
 	t_farm	*farm;
 
 	push_start_to_front(lem_in);
 	farm = (t_farm*)ft_memalloc(sizeof(*farm));
-	farm->id = ft_strdup(lem_in->room->id);
+	farm->id = ft_strdup(lem_in->adj_list->node_id);
 	farm->parent = NULL;
 	lem_in->farm = farm;
-	count_links(farm, lem_in->room);
-	create_children(farm, farm, lem_in->room->links);
-	assign_tree(farm, farm->child_count, farm->child, lem_in->room);
+	count_edges(farm, lem_in->adj_list);
+	create_children(farm, farm, lem_in->adj_list->edges);
+	assign_tree(farm, farm->child_count, farm->child, lem_in->adj_list);
 }

@@ -6,39 +6,66 @@
 #    By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/19 18:14:34 by rpapagna          #+#    #+#              #
-#    Updated: 2021/12/19 18:14:34 by rpapagna         ###   ########.fr        #
+#    Updated: 2022/01/12 13:08:34 by rpapagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= lem_in
-
+AUTHOR	= rpapagna
 CFLAGS	= -Wall -Werror -Wextra -g
 
 #PATHS
-LIB				= .libft.a
-SRC_PATH		= srcs/
-INC				= -I includes/
+LIB		= .libft.a
+SRC_PATH= srcs/
+INC_PATH= includes/
+OBJ_PATH= obj
 
-SRCS	= lem-in.c \
-		build_farm.c \
-		build_tree.c \
+#COLOR OUTPUT OPIONS
+RED		=\033[0;31m
+GREEN	=\033[0;32m
+NC		=\033[0m
+
+SRCS	= add_edge.c \
+		build_graph.c \
+		create_graph.c \
+		lem-in.c \
+		split_line.c \
 		run_ants.c \
 		validate.c
+
+OBJ		= $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
 
 .PHONY: clean
 
 all: $(NAME)
 
 clean:
-	@rm -f $(OBJ)
+	@printf "[$(RED)clean   obj$(NC)]\t[:#         :]\r"
+	@rm -rf $(OBJ_PATH)
+	@printf "[$(RED)clean   obj$(NC)]\t[:##########:]\n"
 
 fclean: clean
-	@rm -rf $(OBJ_PATH)
+	@printf "[$(RED)full  clean$(NC)]\t[:#         :]\r"
+	@rm -rf $(NAME).dSYM
+	@printf "[$(RED)full  clean$(NC)]\t[:####      :]\r"
+	@rm -rf $(NAME).h.gch
+	@printf "[$(RED)full  clean$(NC)]\t[:#######   :]\r"
 	@rm -rf $(NAME)
+	@printf "[$(RED)full  clean$(NC)]\t[:##########:]\n"
 
 re: fclean all
 
-$(NAME):
-	@gcc $(CFLAGS) $(INC) -o $(NAME) $(addprefix $(SRC_PATH),$(SRCS)) $(LIB)
+$(NAME): $(OBJ)
+	@printf "[$(NAME)]\t[:########  :]\r"	
+	@gcc $(CFLAGS) $(OBJ_PATH)/*.o $(LIB) -o $(NAME)
+	@printf "[$(GREEN)$(NAME)$(NC)]\t[:##########:]\n"	
 	@printf "to run:\n"
 	@printf "./lem_in < <path to map>\n"
+
+$(OBJ_PATH):
+	@printf "[$(NAME)]\t[:#         :]\r"	
+	@mkdir -p $@
+
+$(OBJ_PATH)/%.o: srcs/%.c $(INC_PATH)/*.h | $(OBJ_PATH)
+	@printf "[$(NAME)]\t[:######    :]\r"
+	@gcc $(CFLAGS) -I $(INC_PATH) -o $@ -c $<
