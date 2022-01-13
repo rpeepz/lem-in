@@ -26,6 +26,7 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	tmp = lem_in->adj_list;
 	new_node->next = tmp;
 	lem_in->adj_list = new_node;
+	++lem_in->count_nodes;
 	while (*buf)
 		free(*(buf)++);
 	free(buf);

@@ -71,8 +71,7 @@ int		main(void)
 		ft_putendl("ERROR");
 	else
 	{
-		build_graph1(&lem_in);
-		validate(&lem_in);
+		find_path(&lem_in);
 		run_ants(&lem_in);
 	}
 	die(&lem_in);

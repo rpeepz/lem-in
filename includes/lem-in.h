@@ -18,12 +18,26 @@
 # define START "##start"
 # define END "##end"
 
+/**
+	* Edge data structure which connects nodes to eachother in the graph 
+	*
+	* @param	char* dest_id - identity of node that is being connected
+	* @param	s_edge* next - pointer to an additional edge (if one exists)
+**/
 typedef struct 		s_edge
 {
 	char			*dest_id;
 	struct s_edge	*next;
 }					t_edge;
 
+/**
+	* Graph data structure as an adjacency list
+	*
+	* @param	char* node_id - identifier of the node
+	* @param	t_point location - where in 2d space the node is located
+	* @param	t_edge* edges - pointer to connecting edges of the node
+	* @param	s_graph* next - pointer to the next node of the adjacency list
+**/
 typedef struct		s_graph
 {
 	char			*node_id;
@@ -32,21 +46,59 @@ typedef struct		s_graph
 	struct s_graph	*next;
 }					t_graph;
 
-typedef struct		s_farm
+/**
+	* Path data structure
+	*
+	* @param	t_graph* node - node within the graph
+	* @param	size_t distance - distance from the starting node
+**/
+typedef struct		s_path
 {
-	char			*id;
-	int				child_count;
-	struct s_farm	**child;
-	struct s_farm	*parent;
-}					t_farm;
+	t_graph			*node;
+	size_t			distance;
+}					t_path;
 
+/**
+	* Nodes used within the queue data structure
+	*
+	* @param	t_path* content - pointer to the path data structure
+	* @param	s_node* next - pointer to the next element in the queue
+**/
+typedef struct		s_node
+{
+	t_path			*content;
+	struct s_node	*next;
+}					t_node;
+
+/**
+	* Queue data structure
+	*
+	* @param	t_node* fisrt - pointer to the first element in the queue
+	* @param	t_node* last - pointer to the last element in the queue
+**/
+typedef struct		s_queue
+{
+	t_node			*first;
+	t_node			*last;
+}					t_queue;
+
+/**
+	* Program data structure to hold all necessary info to process the algorithm
+	*
+	* @param	int check_start - boolean trigger to indicate the starting node
+	* @param	int check_end - boolean trigger to indicate the ending node
+	* @param	size_t ants - the number of ants
+	* @param	t_graph* adj_list - graph of nodes represented as adjacency list
+	* @param	char* start_id - identity of the starting node
+	* @param	char* end_id - identity of ending node
+**/
 typedef struct		s_lem_in
 {
 	int				check_start;
 	int				check_end;
 	size_t			ants;
+	size_t			count_nodes;
 	t_graph			*adj_list;
-	t_farm			*farm;
 	char			*start_id;
 	char			*end_id;
 }					t_lem_in;
@@ -55,9 +107,15 @@ typedef struct		s_lem_in
 char				**split_line(char *s, char c);
 int					create_graph(char *line, t_lem_in *lem_in);
 void				add_edge(char *line, t_lem_in *farm);
-void				build_graph1(t_lem_in *farm);
-
 int					validate(t_lem_in *farm);
+void				find_path(t_lem_in *farm);
 void				run_ants(t_lem_in *farm);
+
+t_queue				*queue_init(void);
+int 				queue_is_empty(t_queue *queue);
+char 				*queue_peek(t_queue *queue);
+void				enqueue(t_queue *queue, t_graph *node, size_t distance);
+void				*dequeue(t_queue *queue);
+
 
 #endif

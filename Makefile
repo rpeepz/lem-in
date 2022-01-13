@@ -26,11 +26,12 @@ GREEN	=\033[0;32m
 NC		=\033[0m
 
 SRCS	= add_edge.c \
-		build_graph.c \
 		create_graph.c \
+		find_path.c \
 		lem-in.c \
-		split_line.c \
+		queue.c \
 		run_ants.c \
+		split_line.c \
 		validate.c
 
 OBJ		= $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
