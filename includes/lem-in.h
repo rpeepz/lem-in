@@ -108,6 +108,7 @@ char				**split_line(char *s, char c);
 int					create_graph(char *line, t_lem_in *lem_in);
 void				add_edge(char *line, t_lem_in *farm);
 int					validate(t_lem_in *farm);
+void				graph_undirected(t_graph *adj_list);
 void				find_path(t_lem_in *farm);
 void				run_ants(t_lem_in *farm);
 

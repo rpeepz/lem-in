@@ -71,6 +71,8 @@ int		main(void)
 		ft_putendl("ERROR");
 	else
 	{
+		graph_undirected(lem_in.adj_list);
+		validate(&lem_in);
 		find_path(&lem_in);
 		run_ants(&lem_in);
 	}

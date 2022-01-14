@@ -29,7 +29,23 @@ static void		push_start_to_front(t_lem_in *lem_in)
 	lem_in->adj_list->next = tmp;
 }
 
-void			queue_neighbors(t_queue *queue, t_path *pop, t_graph *head)
+int				visit_neighbors(t_edge *edge, char **visited)
+{
+	size_t	i;
+
+	i = 0;
+	while (visited[i])
+	{
+		if (!ft_strcmp(edge->dest_id, visited[i]))
+			return (1);
+		++i;
+	}
+	visited[i] = edge->dest_id;
+	return (0);
+}
+
+void			queue_neighbors(t_graph *head, t_queue *queue, t_path *pop,\
+				char **visited)
 {
 	t_edge	*edge;
 	t_graph *node;
@@ -37,17 +53,17 @@ void			queue_neighbors(t_queue *queue, t_path *pop, t_graph *head)
 	edge = pop->node->edges;
 	while (edge)
 	{
-		node = head;
-		while (ft_strcmp(node->node_id, edge->dest_id))
-			node = node->next;
-		enqueue(queue, node, pop->distance + 1);
+		if (!visit_neighbors(edge, visited))
+		{
+			node = head;
+			while (node && ft_strcmp(node->node_id, edge->dest_id))
+				node = node->next;
+			enqueue(queue, node, pop->distance + 1);
+		}
 		edge = edge->next;
 	}
 }
 
-//TODO
-//
-//add visited array for queue neighbors
 void			find_path(t_lem_in *lem_in)
 {
 	t_queue		*queue;
@@ -62,12 +78,12 @@ void			find_path(t_lem_in *lem_in)
 	while (!queue_is_empty(queue))
 	{
 		pop = dequeue(queue);
+		ft_printf("popped %s\n", pop->node->node_id);//testing
 		if (!ft_strcmp(pop->node->node_id, lem_in->end_id))
 		{
-			ft_printf("distance %d\n", pop->distance);
+			ft_printf("distance %d\n", pop->distance);//result
 			break ;
 		}
-		queue_neighbors(queue, pop, lem_in->adj_list);
-		// 
+		queue_neighbors(lem_in->adj_list, queue, pop, visited);
 	}
 }

@@ -28,6 +28,7 @@ NC		=\033[0m
 SRCS	= add_edge.c \
 		create_graph.c \
 		find_path.c \
+		graph_undirected.c \
 		lem-in.c \
 		queue.c \
 		run_ants.c \
@@ -48,9 +49,11 @@ clean:
 fclean: clean
 	@printf "[$(RED)full  clean$(NC)]\t[:#         :]\r"
 	@rm -rf $(NAME).dSYM
-	@printf "[$(RED)full  clean$(NC)]\t[:####      :]\r"
+	@printf "[$(RED)full  clean$(NC)]\t[:###       :]\r"
+	@rm -rf $(NAME)*.stackdump
+	@printf "[$(RED)full  clean$(NC)]\t[:#####     :]\r"
 	@rm -rf $(NAME).h.gch
-	@printf "[$(RED)full  clean$(NC)]\t[:#######   :]\r"
+	@printf "[$(RED)full  clean$(NC)]\t[:########  :]\r"
 	@rm -rf $(NAME)
 	@printf "[$(RED)full  clean$(NC)]\t[:##########:]\n"
 
