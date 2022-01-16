@@ -47,26 +47,14 @@ typedef struct		s_graph
 }					t_graph;
 
 /**
-	* Path data structure
-	*
-	* @param	t_graph* node - node within the graph
-	* @param	size_t distance - distance from the starting node
-**/
-typedef struct		s_path
-{
-	t_graph			*node;
-	size_t			distance;
-}					t_path;
-
-/**
 	* Nodes used within the queue data structure
 	*
-	* @param	t_path* content - pointer to the path data structure
+	* @param	t_graph* node - pointer to the node in the queue
 	* @param	s_node* next - pointer to the next element in the queue
 **/
 typedef struct		s_node
 {
-	t_path			*content;
+	t_graph			*node;
 	struct s_node	*next;
 }					t_node;
 
@@ -122,7 +110,7 @@ void				run_ants(t_lem_in *lem_in);
 t_queue				*queue_init(void);
 int 				queue_is_empty(t_queue *queue);
 char 				*queue_peek(t_queue *queue);
-void				enqueue(t_queue *queue, t_graph *node, size_t distance);
+void				enqueue(t_queue *queue, t_graph *node);
 void				*dequeue(t_queue *queue);
 
 

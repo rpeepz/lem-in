@@ -31,13 +31,8 @@ void	die(t_lem_in *lem_in)
 		ft_memdel((void**)&lem_in->adj_list);
 		lem_in->adj_list = graph;
 	}
-	// free queue nodes
-	t_path	*pop = NULL;
 	while (!queue_is_empty(lem_in->queue))
-	{
-		pop = dequeue(lem_in->queue);
-		ft_memdel((void**)&pop);
-	}
+		dequeue(lem_in->queue);
 	ft_memdel((void**)&lem_in->queue);
 	ft_memdel((void**)&lem_in->start_id);
 	ft_memdel((void**)&lem_in->end_id);
@@ -51,7 +46,7 @@ int		get_file(t_lem_in *lem_in)
 	int		err;
 
 	err = 0;
-	int fd = open("./maps/has_comments.map", O_RDONLY);
+	int fd = open("./maps/subject-3.map", O_RDONLY);
 	while ((get_next_line(fd, &buf)) > 0)
 	{
 		if (!lem_in->ants)
