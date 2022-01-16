@@ -64,6 +64,30 @@ static void		queue_neighbors(t_lem_in *lem_in, t_graph *pop, char ***prev)
 	}
 }
 
+static void		reverse_array(char **array, size_t n)
+{
+	size_t	s;
+	size_t	e;
+	char	*tmp;
+
+	s = 0;
+	e = 0;
+	while (s < n)
+	{
+		if (!array[s + 1])
+			break ;
+		++s;
+	}
+	while (s > e)
+	{
+		tmp = array[s];
+		array[s] = array[e];
+		array[e] = tmp;
+		++e;
+		--s;
+	}
+}
+
 void			find_path(t_lem_in *lem_in)
 {
 	t_graph		*pop;
@@ -84,6 +108,8 @@ void			find_path(t_lem_in *lem_in)
 		else
 			queue_neighbors(lem_in, pop, lem_in->prev);
 	}
-	if (!path_matrix_reconstruct(lem_in))
+	path_matrix_reconstruct(lem_in);
+	reverse_array(lem_in->path, lem_in->count_nodes);
+	if (ft_strcmp(lem_in->path[0], lem_in->start_id))
 		ft_memdel((void**)&lem_in->path);
 }

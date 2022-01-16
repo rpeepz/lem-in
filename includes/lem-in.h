@@ -104,7 +104,7 @@ void				graph_undirected(t_graph *adj_list);
 void				find_path(t_lem_in *lem_in);
 char				***path_matrix_init(size_t cells, size_t rows);
 void				path_matrix_save(char ***path, char *neighbor, char *node);
-int					path_matrix_reconstruct(t_lem_in *lem_in);
+void				path_matrix_reconstruct(t_lem_in *lem_in);
 void				run_ants(t_lem_in *lem_in);
 
 t_queue				*queue_init(void);

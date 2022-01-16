@@ -51,19 +51,17 @@ void			path_matrix_save(char ***path, char *neighbor, char *node)
 	path[i][1] = node;
 }
 
-int				path_matrix_reconstruct(t_lem_in *lem_in)
+void			path_matrix_reconstruct(t_lem_in *lem_in)
 {
-	int		paths_connected;
 	size_t	i;
 	size_t	j;
 
-	paths_connected = 0;
 	lem_in->path[0] = lem_in->end_id;
-	i = 0;
-	while (!paths_connected && ++i < lem_in->count_nodes)
+	i = 1;
+	while (i < lem_in->count_nodes && lem_in->path[i - 1])
 	{
 		j = 0;
-		while (j < lem_in->count_nodes)
+		while (j < lem_in->count_nodes && lem_in->prev[j][0])
 		{
 			if (!ft_strcmp(lem_in->path[i - 1], lem_in->prev[j][0]))
 			{
@@ -72,9 +70,7 @@ int				path_matrix_reconstruct(t_lem_in *lem_in)
 			}
 			++j;
 		}
-		if (!ft_strcmp(lem_in->path[i], lem_in->start_id))
-			paths_connected = 1;
+		++i;
 	}
 	path_matrix_destroy(lem_in->prev, lem_in->count_nodes);
-	return (paths_connected);
 }
