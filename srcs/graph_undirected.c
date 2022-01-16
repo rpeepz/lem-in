@@ -16,23 +16,29 @@ static void	append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
 {
 	t_graph		*n;
 	t_edge		*new_edge;
-	t_edge		*tmp;
+	t_edge		*head;
 
 	n = adj_list;
 	while (ft_strcmp(n->node_id, edge->dest_id))
 		n = n->next;
-	tmp = n->edges;
-	while (tmp)
+	head = n->edges;
+	while (n->edges)
 	{
-		if (!ft_strcmp(tmp->dest_id, node_id))
+		if (!ft_strcmp(n->edges->dest_id, node_id))
 			return ;
-		if (!tmp->next)
+		if (!n->edges->next)
 			break ;
-		tmp = tmp->next;
+		n->edges = n->edges->next;
 	}
 	new_edge = ft_memalloc(sizeof(t_edge));
 	new_edge->dest_id = ft_strdup(node_id);
-	tmp->next = new_edge;
+	if (n->edges)
+	{
+		n->edges->next = new_edge;
+		n->edges = head;
+	}
+	else
+		n->edges = new_edge;
 }
 
 void		graph_undirected(t_graph *adj_list)
