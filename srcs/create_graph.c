@@ -19,7 +19,7 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	t_graph	*tmp;
 
 	buf = split_line(line, ' ');
-	new_node = ft_memalloc(sizeof(*new_node));
+	new_node = ft_memalloc(sizeof(t_graph));
 	new_node->node_id = ft_strdup(buf[0]);
 	new_node->location.x = (size_t)ft_atoi(buf[1]);
 	new_node->location.y = (size_t)ft_atoi(buf[2]);

@@ -20,7 +20,7 @@ void			add_edge(char *line, t_lem_in *lem_in)
 	t_edge	*edge;
 
 	buf = split_line(line, '-');
-	new_edge = ft_memalloc(sizeof(*new_edge));
+	new_edge = ft_memalloc(sizeof(t_edge));
 	new_edge->dest_id = ft_strdup(buf[1]);
 	node = lem_in->adj_list;
 	while (node)

@@ -30,7 +30,7 @@ static void	append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
 			break ;
 		tmp = tmp->next;
 	}
-	new_edge = ft_memalloc(sizeof(*new_edge));
+	new_edge = ft_memalloc(sizeof(t_edge));
 	new_edge->dest_id = ft_strdup(node_id);
 	tmp->next = new_edge;
 }

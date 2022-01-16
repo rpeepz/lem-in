@@ -37,7 +37,7 @@ char			**split_line(char *s, char c)
 	int		n;
 	
 	n = ft_countwords(s, c);
-	arr = ft_memalloc(sizeof(*arr) * (n + 1));
+	arr = ft_memalloc(sizeof(char*) * (n + 1));
 	i = 0;
 	j = 0;
 	while (i < n)

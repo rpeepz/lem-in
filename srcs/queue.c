@@ -16,7 +16,7 @@ t_queue		*queue_init(void)
 {
 	t_queue	*queue;
 
-	if (!(queue = ft_memalloc(sizeof(queue))))
+	if (!(queue = ft_memalloc(sizeof(t_queue))))
 		return (NULL);
 	queue->first = NULL;
 	queue->last = NULL;

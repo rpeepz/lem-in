@@ -30,6 +30,7 @@ SRCS	= add_edge.c \
 		find_path.c \
 		graph_undirected.c \
 		lem-in.c \
+		path_matrix.c \
 		queue.c \
 		run_ants.c \
 		split_line.c \

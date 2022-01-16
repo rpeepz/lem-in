@@ -29,61 +29,63 @@ static void		push_start_to_front(t_lem_in *lem_in)
 	lem_in->adj_list->next = tmp;
 }
 
-int				visit_neighbors(t_edge *edge, char **visited)
+static int		visit_neighbors(t_edge *neighbor, char **visited)
 {
 	size_t	i;
 
 	i = 0;
 	while (visited[i])
 	{
-		if (!ft_strcmp(edge->dest_id, visited[i]))
+		if (!ft_strcmp(neighbor->dest_id, visited[i]))
 			return (1);
 		++i;
 	}
-	visited[i] = edge->dest_id;
+	visited[i] = neighbor->dest_id;
 	return (0);
 }
 
-void			queue_neighbors(t_graph *head, t_queue *queue, t_path *pop,\
-				char **visited)
+static void		queue_neighbors(t_lem_in *lem_in, t_path *pop, char ***prev)
 {
-	t_edge	*edge;
+	t_edge	*neighbor;
 	t_graph *node;
 	
-	edge = pop->node->edges;
-	while (edge)
+	neighbor = pop->node->edges;
+	while (neighbor)
 	{
-		if (!visit_neighbors(edge, visited))
+		if (!visit_neighbors(neighbor, lem_in->visited))
 		{
-			node = head;
-			while (node && ft_strcmp(node->node_id, edge->dest_id))
+			path_matrix_save(prev, neighbor->dest_id, pop->node->node_id);
+			node = lem_in->adj_list;
+			while (node && ft_strcmp(node->node_id, neighbor->dest_id))
 				node = node->next;
-			enqueue(queue, node, pop->distance + 1);
+			enqueue(lem_in->queue, node, pop->distance + 1);
 		}
-		edge = edge->next;
+		neighbor = neighbor->next;
 	}
 }
 
 void			find_path(t_lem_in *lem_in)
 {
-	t_queue		*queue;
 	t_path		*pop;
-	char		**visited;
+	int			found_path;
 
 	push_start_to_front(lem_in);
-	queue = queue_init();
-	enqueue(queue, lem_in->adj_list, 0);
-	visited = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
-	visited[0] = queue_peek(queue);
-	while (!queue_is_empty(queue))
+	lem_in->queue = queue_init();
+	enqueue(lem_in->queue, lem_in->adj_list, 0);
+	lem_in->visited = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
+	lem_in->prev = path_matrix_init(lem_in->count_nodes, 2);
+	lem_in->visited[0] = queue_peek(lem_in->queue);
+	found_path = 0;
+	while (!found_path && !queue_is_empty(lem_in->queue))
 	{
-		pop = dequeue(queue);
-		ft_printf("popped %s\n", pop->node->node_id);//testing
+		pop = dequeue(lem_in->queue);
 		if (!ft_strcmp(pop->node->node_id, lem_in->end_id))
-		{
-			ft_printf("distance %d\n", pop->distance);//result
-			break ;
-		}
-		queue_neighbors(lem_in->adj_list, queue, pop, visited);
+			found_path = 1;
+		else
+			queue_neighbors(lem_in, pop, lem_in->prev);
+		ft_memdel((void**)&pop);
 	}
+	if (!path_matrix_reconstruct(lem_in))
+		ft_memdel((void**)&lem_in->path);
+	// ft_printf("distance %d\n", pop->distance);
 }

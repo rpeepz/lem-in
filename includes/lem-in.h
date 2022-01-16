@@ -99,18 +99,25 @@ typedef struct		s_lem_in
 	size_t			ants;
 	size_t			count_nodes;
 	t_graph			*adj_list;
+	t_queue			*queue;
 	char			*start_id;
 	char			*end_id;
+	char			**visited;
+	char			***prev;
+	char			**path;
 }					t_lem_in;
 
 
 char				**split_line(char *s, char c);
 int					create_graph(char *line, t_lem_in *lem_in);
-void				add_edge(char *line, t_lem_in *farm);
-int					validate(t_lem_in *farm);
+void				add_edge(char *line, t_lem_in *lem_in);
+int					validate(t_lem_in *lem_in);
 void				graph_undirected(t_graph *adj_list);
-void				find_path(t_lem_in *farm);
-void				run_ants(t_lem_in *farm);
+void				find_path(t_lem_in *lem_in);
+char				***path_matrix_init(size_t cells, size_t rows);
+void				path_matrix_save(char ***path, char *neighbor, char *node);
+int					path_matrix_reconstruct(t_lem_in *lem_in);
+void				run_ants(t_lem_in *lem_in);
 
 t_queue				*queue_init(void);
 int 				queue_is_empty(t_queue *queue);
