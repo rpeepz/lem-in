@@ -58,7 +58,6 @@ int				path_matrix_reconstruct(t_lem_in *lem_in)
 	size_t	j;
 
 	paths_connected = 0;
-	lem_in->path = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
 	lem_in->path[0] = lem_in->end_id;
 	i = 0;
 	while (!paths_connected && ++i < lem_in->count_nodes)

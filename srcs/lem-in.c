@@ -46,7 +46,7 @@ int		get_file(t_lem_in *lem_in)
 	int		err;
 
 	err = 0;
-	int fd = open("./maps/subject-3.map", O_RDONLY);
+	int fd = open("./maps/subject-5.map", O_RDONLY);
 	while ((get_next_line(fd, &buf)) > 0)
 	{
 		if (!lem_in->ants)
@@ -62,6 +62,7 @@ int		get_file(t_lem_in *lem_in)
 		}
 	}
 	ft_memdel((void**)&buf);
+	lem_in->path = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
 	return (err);
 }
 

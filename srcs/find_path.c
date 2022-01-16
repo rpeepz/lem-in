@@ -86,5 +86,4 @@ void			find_path(t_lem_in *lem_in)
 	}
 	if (!path_matrix_reconstruct(lem_in))
 		ft_memdel((void**)&lem_in->path);
-	// ft_printf("distance %d\n", pop->distance);
 }

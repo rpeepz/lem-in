@@ -47,11 +47,8 @@ static void	printgraph(t_lem_in *lem_in)
 
 int		validate(t_lem_in *lem_in)
 {
-	if (!(lem_in->ants\
-		|| lem_in->start_id \
-		|| lem_in->end_id \
-		|| lem_in->adj_list \
-		|| lem_in->path))
+	if (!lem_in->ants || !lem_in->start_id || !lem_in->end_id ||\
+		!lem_in->adj_list || !lem_in->path)
 		return (1);
 	//testing
 	printgraph(lem_in);
