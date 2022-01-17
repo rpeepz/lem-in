@@ -12,22 +12,62 @@
 
 #include "lem-in.h"
 
-static int		visit_neighbors(t_edge *neighbor, char **visited)
+static void		unvisit(t_lem_in *lem_in, size_t k)
+{
+	size_t		i;
+	size_t		j;
+	size_t		n;
+	int			part_of_path;
+
+	i = 0;
+	while (i < lem_in->count_nodes)
+	{
+		if (!ft_strcmp(lem_in->visited[i], lem_in->end_id))
+			lem_in->visited[i] = NULL;
+		else
+		{
+			part_of_path = 0;
+			n = 0;
+			while (!part_of_path && n <= k)
+			{
+				j = 0;
+				while (!part_of_path && lem_in->path[n][j])
+				{
+					if (!ft_strcmp(lem_in->visited[i], lem_in->path[n][j]))
+						part_of_path = 1;
+					else
+						++j;
+				}
+				if (!part_of_path)
+					++n;
+			}
+			if (n > k)
+				--n;
+			lem_in->visited[i] = lem_in->path[n][j];
+		}
+		++i;
+	}
+}
+
+static int		visit_neighbors(t_edge *neighbor, char **visited, size_t n)
 {
 	size_t	i;
 
 	i = 0;
-	while (visited[i])
+	while (i < n)
 	{
-		if (!ft_strcmp(neighbor->dest_id, visited[i]))
+		if (visited[i] && !ft_strcmp(neighbor->dest_id, visited[i]))
 			return (1);
 		++i;
 	}
+	i = 0;
+	while (visited[i])
+		++i;
 	visited[i] = neighbor->dest_id;
 	return (0);
 }
 
-static void		queue_neighbors(t_lem_in *lem_in, t_graph *pop, char ***prev)
+static void		queue_neighbors(t_lem_in *lem_in, t_graph *pop, t_queue *queue)
 {
 	t_edge	*neighbor;
 	t_graph *node;
@@ -35,63 +75,57 @@ static void		queue_neighbors(t_lem_in *lem_in, t_graph *pop, char ***prev)
 	neighbor = pop->edges;
 	while (neighbor)
 	{
-		if (!visit_neighbors(neighbor, lem_in->visited))
+		if (!visit_neighbors(neighbor, lem_in->visited, lem_in->count_nodes))
 		{
-			path_matrix_save(prev, neighbor->dest_id, pop->node_id);
+			path_matrix_save(lem_in->prev, neighbor->dest_id, pop->node_id);
 			node = lem_in->adj_list;
 			while (node && ft_strcmp(node->node_id, neighbor->dest_id))
 				node = node->next;
-			enqueue(lem_in->queue, node);
+			enqueue(queue, node);
 		}
 		neighbor = neighbor->next;
 	}
 }
 
-static void		reverse_array(char **array, size_t n)
+static void		bfs(t_lem_in *lem_in)
 {
-	size_t	s;
-	size_t	e;
-	char	*tmp;
+	t_queue		*queue;
+	t_graph		*pop;
 
-	s = 0;
-	e = 0;
-	while (s < n)
+	queue = queue_init();
+	enqueue(queue, lem_in->adj_list);
+	lem_in->visited[0] = queue_peek(queue);
+	while (!queue_is_empty(queue))
 	{
-		if (!array[s + 1])
+		pop = dequeue(queue);
+		if (!ft_strcmp(pop->node_id, lem_in->end_id))
+		{
+			while (!queue_is_empty(queue))
+				dequeue(queue);
 			break ;
-		++s;
+		}
+		else
+			queue_neighbors(lem_in, pop, queue);
 	}
-	while (s > e)
-	{
-		tmp = array[s];
-		array[s] = array[e];
-		array[e] = tmp;
-		++e;
-		--s;
-	}
+	ft_memdel((void**)&queue);
 }
 
 void			find_path(t_lem_in *lem_in)
 {
-	t_graph		*pop;
-	int			found_path;
+	size_t	k;
 
-	lem_in->queue = queue_init();
-	enqueue(lem_in->queue, lem_in->adj_list);
 	lem_in->visited = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
-	lem_in->prev = path_matrix_init(lem_in->count_nodes, 2);
-	lem_in->visited[0] = queue_peek(lem_in->queue);
-	found_path = 0;
-	while (!found_path && !queue_is_empty(lem_in->queue))
+	lem_in->path = path_matrix_init(lem_in->count_paths, lem_in->count_nodes);
+	k = 0;
+	while (k < lem_in->count_paths)
 	{
-		pop = dequeue(lem_in->queue);
-		if (!ft_strcmp(pop->node_id, lem_in->end_id))
-			found_path = 1;
-		else
-			queue_neighbors(lem_in, pop, lem_in->prev);
+		lem_in->prev = path_matrix_init(lem_in->count_nodes, 2);
+		bfs(lem_in);
+		path_matrix_reconstruct(lem_in, k);
+		if (reverse_array(lem_in->path[k], lem_in->count_nodes) < 2)
+			lem_in->path[k][0] = NULL;
+		else if (!ft_strcmp(lem_in->path[k][0], lem_in->start_id))
+			unvisit(lem_in, k);
+		++k;
 	}
-	path_matrix_reconstruct(lem_in);
-	reverse_array(lem_in->path, lem_in->count_nodes);
-	if (ft_strcmp(lem_in->path[0], lem_in->start_id))
-		ft_memdel((void**)&lem_in->path);
 }

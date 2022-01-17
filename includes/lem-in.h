@@ -76,9 +76,14 @@ typedef struct		s_queue
 	* @param	int check_start - boolean trigger to indicate the starting node
 	* @param	int check_end - boolean trigger to indicate the ending node
 	* @param	size_t ants - the number of ants
+	* @param	size_t count_nodes - the number of nodes in the graph
+	* @param	size_t count_paths - the number of possible paths
 	* @param	t_graph* adj_list - graph of nodes represented as adjacency list
 	* @param	char* start_id - identity of the starting node
 	* @param	char* end_id - identity of ending node
+	* @param	char** visited - array of visited node identities
+	* @param	char*** prev - array of identities of the followed path
+	* @param	char*** path - array of shortest paths
 **/
 typedef struct		s_lem_in
 {
@@ -86,26 +91,28 @@ typedef struct		s_lem_in
 	int				check_end;
 	size_t			ants;
 	size_t			count_nodes;
+	size_t			count_paths;
 	t_graph			*adj_list;
-	t_queue			*queue;
 	char			*start_id;
 	char			*end_id;
 	char			**visited;
 	char			***prev;
-	char			**path;
+	char			***path;
 }					t_lem_in;
 
-
 char				**split_line(char *s, char c);
+int					reverse_array(char **array, size_t n);
 int					create_graph(char *line, t_lem_in *lem_in);
 void				add_edge(char *line, t_lem_in *lem_in);
 int					validate(t_lem_in *lem_in);
 void				graph_undirected(t_lem_in *lem_in);
 void				find_path(t_lem_in *lem_in);
+void				run_ants(t_lem_in *lem_in);
+
 char				***path_matrix_init(size_t cells, size_t rows);
 void				path_matrix_save(char ***path, char *neighbor, char *node);
-void				path_matrix_reconstruct(t_lem_in *lem_in);
-void				run_ants(t_lem_in *lem_in);
+void				path_matrix_reconstruct(t_lem_in *lem_in, size_t k);
+void				path_matrix_destroy(char ***path, size_t cells);
 
 t_queue				*queue_init(void);
 int 				queue_is_empty(t_queue *queue);

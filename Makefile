@@ -32,6 +32,7 @@ SRCS	= add_edge.c \
 		lem-in.c \
 		path_matrix.c \
 		queue.c \
+		reverse_array.c \
 		run_ants.c \
 		split_line.c \
 		validate.c

@@ -51,21 +51,21 @@ void			path_matrix_save(char ***path, char *neighbor, char *node)
 	path[i][1] = node;
 }
 
-void			path_matrix_reconstruct(t_lem_in *lem_in)
+void			path_matrix_reconstruct(t_lem_in *lem_in, size_t k)
 {
 	size_t	i;
 	size_t	j;
 
-	lem_in->path[0] = lem_in->end_id;
+	lem_in->path[k][0] = lem_in->end_id;
 	i = 1;
-	while (i < lem_in->count_nodes && lem_in->path[i - 1])
+	while (i < lem_in->count_nodes && lem_in->path[k][i - 1])
 	{
 		j = 0;
 		while (j < lem_in->count_nodes && lem_in->prev[j][0])
 		{
-			if (!ft_strcmp(lem_in->path[i - 1], lem_in->prev[j][0]))
+			if (!ft_strcmp(lem_in->path[k][i - 1], lem_in->prev[j][0]))
 			{
-				lem_in->path[i] = lem_in->prev[j][1];
+				lem_in->path[k][i] = lem_in->prev[j][1];
 				break ;
 			}
 			++j;

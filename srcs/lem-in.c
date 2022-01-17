@@ -31,13 +31,10 @@ void	die(t_lem_in *lem_in)
 		ft_memdel((void**)&lem_in->adj_list);
 		lem_in->adj_list = graph;
 	}
-	while (!queue_is_empty(lem_in->queue))
-		dequeue(lem_in->queue);
-	ft_memdel((void**)&lem_in->queue);
 	ft_memdel((void**)&lem_in->start_id);
 	ft_memdel((void**)&lem_in->end_id);
 	ft_memdel((void**)&lem_in->visited);
-	ft_memdel((void**)&lem_in->path);
+	path_matrix_destroy(lem_in->path, lem_in->count_paths);
 }
 
 int		get_file(t_lem_in *lem_in)
@@ -62,7 +59,6 @@ int		get_file(t_lem_in *lem_in)
 		}
 	}
 	ft_memdel((void**)&buf);
-	lem_in->path = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
 	return (err);
 }
 

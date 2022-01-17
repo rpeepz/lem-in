@@ -12,6 +12,21 @@
 
 #include "lem-in.h"
 
+static size_t	count_edges(t_edge *edges)
+{
+	size_t	n;
+	t_edge	*edge;
+
+	n = 0;
+	edge = edges;
+	while (edge)
+	{
+		++n;
+		edge = edge->next;
+	}
+	return (n);
+}
+
 static t_graph	*push_start_to_front(t_graph *adj_list, char *start_id)
 {
 	t_graph	*head;
@@ -76,4 +91,5 @@ void			graph_undirected(t_lem_in *lem_in)
 		node = node->next;
 	}
 	lem_in->adj_list = push_start_to_front(lem_in->adj_list, lem_in->start_id);
+	lem_in->count_paths = count_edges(lem_in->adj_list->edges);
 }

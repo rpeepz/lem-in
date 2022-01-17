@@ -38,9 +38,13 @@ static void	printgraph(t_lem_in *lem_in)
 	lem_in->adj_list = node;
 	if (lem_in->path)
 	{
-		for (size_t i = 0; i < lem_in->count_nodes; i++)
+		for (size_t i = 0; i < lem_in->count_paths; i++)
 		{
-				printf("path[%ld] = %s\n", i, lem_in->path[i]);
+			for (size_t j = 0; j < lem_in->count_nodes; j++)
+			{
+				printf("path[%ld][%ld] = %s\n", i, j, lem_in->path[i][j]);
+			}
+			printf("\n");
 		}
 	}
 }
@@ -48,7 +52,7 @@ static void	printgraph(t_lem_in *lem_in)
 int		validate(t_lem_in *lem_in)
 {
 	if (!lem_in->ants || !lem_in->start_id || !lem_in->end_id ||\
-		!lem_in->adj_list || !lem_in->path)
+		!lem_in->adj_list || (lem_in->count_paths && !lem_in->path[0][0]))
 		return (1);
 	//testing
 	printgraph(lem_in);
