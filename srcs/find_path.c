@@ -12,23 +12,6 @@
 
 #include "lem-in.h"
 
-static void		push_start_to_front(t_lem_in *lem_in)
-{
-	t_graph	*head;
-	t_graph	*prev;
-	t_graph	*tmp;
-
-	head = lem_in->adj_list;
-	while (ft_strcmp(lem_in->start_id, lem_in->adj_list->node_id))
-	{
-		prev = lem_in->adj_list;
-		lem_in->adj_list = lem_in->adj_list->next;
-	}
-	prev->next = lem_in->adj_list->next;
-	tmp = head;
-	lem_in->adj_list->next = tmp;
-}
-
 static int		visit_neighbors(t_edge *neighbor, char **visited)
 {
 	size_t	i;
@@ -93,7 +76,6 @@ void			find_path(t_lem_in *lem_in)
 	t_graph		*pop;
 	int			found_path;
 
-	push_start_to_front(lem_in);
 	lem_in->queue = queue_init();
 	enqueue(lem_in->queue, lem_in->adj_list);
 	lem_in->visited = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));

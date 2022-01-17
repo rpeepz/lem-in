@@ -12,7 +12,25 @@
 
 #include "lem-in.h"
 
-static void	append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
+static t_graph	*push_start_to_front(t_graph *adj_list, char *start_id)
+{
+	t_graph	*head;
+	t_graph	*prev;
+	t_graph	*tmp;
+
+	head = adj_list;
+	while (ft_strcmp(start_id, adj_list->node_id))
+	{
+		prev = adj_list;
+		adj_list = adj_list->next;
+	}
+	prev->next = adj_list->next;
+	tmp = head;
+	adj_list->next = tmp;
+	return (adj_list);
+}
+
+static void		append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
 {
 	t_graph		*n;
 	t_edge		*new_edge;
@@ -41,20 +59,21 @@ static void	append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
 		n->edges = new_edge;
 }
 
-void		graph_undirected(t_graph *adj_list)
+void			graph_undirected(t_lem_in *lem_in)
 {
 	t_graph		*node;
 	t_edge		*edge;
 
-	node = adj_list;
+	node = lem_in->adj_list;
 	while (node)
 	{
 		edge = node->edges;
 		while (edge)
 		{
-			append_edge_to_node(adj_list, edge, node->node_id);
+			append_edge_to_node(lem_in->adj_list, edge, node->node_id);
 			edge = edge->next;
 		}
 		node = node->next;
 	}
+	lem_in->adj_list = push_start_to_front(lem_in->adj_list, lem_in->start_id);
 }

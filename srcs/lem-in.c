@@ -46,7 +46,7 @@ int		get_file(t_lem_in *lem_in)
 	int		err;
 
 	err = 0;
-	int fd = open("./maps/subject-5.map", O_RDONLY);
+	int fd = open("./maps/has_comments.map", O_RDONLY);
 	while ((get_next_line(fd, &buf)) > 0)
 	{
 		if (!lem_in->ants)
@@ -77,7 +77,7 @@ int		main(void)
 		ft_putendl("ERROR");
 	else
 	{
-		graph_undirected(lem_in.adj_list);
+		graph_undirected(&lem_in);
 		find_path(&lem_in);
 		if (validate(&lem_in))
 			ft_putendl("ERROR");

@@ -40,7 +40,7 @@ static void	printgraph(t_lem_in *lem_in)
 	{
 		for (size_t i = 0; i < lem_in->count_nodes; i++)
 		{
-				printf("path[%ld][0] = %s\n", i, lem_in->path[i]);
+				printf("path[%ld] = %s\n", i, lem_in->path[i]);
 		}
 	}
 }

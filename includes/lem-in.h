@@ -100,7 +100,7 @@ char				**split_line(char *s, char c);
 int					create_graph(char *line, t_lem_in *lem_in);
 void				add_edge(char *line, t_lem_in *lem_in);
 int					validate(t_lem_in *lem_in);
-void				graph_undirected(t_graph *adj_list);
+void				graph_undirected(t_lem_in *lem_in);
 void				find_path(t_lem_in *lem_in);
 char				***path_matrix_init(size_t cells, size_t rows);
 void				path_matrix_save(char ***path, char *neighbor, char *node);
