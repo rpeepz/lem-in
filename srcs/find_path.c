@@ -12,6 +12,9 @@
 
 #include "lem-in.h"
 
+//TODO
+// consolidate and optimize unvisit function
+
 static void		unvisit(t_lem_in *lem_in, size_t k)
 {
 	size_t		i;
