@@ -25,7 +25,7 @@ static void		unvisit(t_lem_in *lem_in, size_t k)
 	i = 0;
 	while (i < lem_in->count_nodes)
 	{
-		if (!ft_strcmp(lem_in->visited[i], lem_in->end_id))
+		if (!lem_in->visited[i] || !ft_strcmp(lem_in->visited[i], lem_in->end_id))
 			lem_in->visited[i] = NULL;
 		else
 		{

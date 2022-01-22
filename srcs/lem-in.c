@@ -43,7 +43,7 @@ int		get_file(t_lem_in *lem_in)
 	int		err;
 
 	err = 0;
-	int fd = open("./maps/has_comments.map", O_RDONLY);
+	int fd = open("./maps/test.map", O_RDONLY);
 	while ((get_next_line(fd, &buf)) > 0)
 	{
 		if (!lem_in->ants)
