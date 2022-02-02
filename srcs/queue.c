@@ -28,19 +28,19 @@ int 		queue_is_empty(t_queue *queue)
 	return (queue && queue->first ? 0 : 1);
 }
 
-char 		*queue_peek(t_queue *queue)
+void 		*queue_peek(t_queue *queue)
 {
 	if (queue_is_empty(queue))
 		return (NULL);
-	return (queue->first->node->node_id);
+	return (queue->first->content);
 }
 
-void		enqueue(t_queue *queue, t_graph *node)
+void		enqueue(t_queue *queue, void *content)
 {
 	t_node	*new_node;
 
 	new_node = ft_memalloc(sizeof(new_node));
-	new_node->node = node;
+	new_node->content = content;
 	new_node->next = NULL;
 	if (queue_is_empty(queue))
 	{
@@ -62,7 +62,7 @@ void		*dequeue(t_queue *queue)
 	if (queue_is_empty(queue))
 		return (NULL);
 	pop = queue->first;
-	p = pop->node;
+	p = pop->content;
 	queue->first = pop->next;
 	ft_memdel((void**)&pop);
 	return (p);
