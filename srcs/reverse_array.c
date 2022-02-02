@@ -12,10 +12,10 @@
 
 #include "lem-in.h"
 
-int			reverse_array(char **array, size_t n)
+int			reverse_array(char **array, int n)
 {
-	size_t	s;
-	size_t	e;
+	int		s;
+	int		e;
 	int		ret;
 	char	*tmp;
 

@@ -12,12 +12,12 @@
 
 #include "lem-in.h"
 #include <stdio.h>
-static void	printgraph(t_lem_in *lem_in)
+static void	test_print(t_lem_in *lem_in)
 {
 	t_graph	*node;
 	t_edge	*edge;
 
-	node = lem_in->adj_list; 
+	node = lem_in->adj_list;
 	printf("ants\t%ld\n", lem_in->ants);
 	printf("start\t%s\n", lem_in->start_id);
 	printf("end\t%s\n", lem_in->end_id);
@@ -38,9 +38,9 @@ static void	printgraph(t_lem_in *lem_in)
 	lem_in->adj_list = node;
 	if (lem_in->path)
 	{
-		for (size_t i = 0; i < lem_in->count_paths; i++)
+		for (int i = 0; i < lem_in->count_paths; i++)
 		{
-			for (size_t j = 0; j < lem_in->count_nodes; j++)
+			for (int j = 0; j < lem_in->count_nodes; j++)
 			{
 				printf("path[%ld][%ld] = %s\n", i, j, lem_in->path[i][j]);
 			}
@@ -55,6 +55,6 @@ int		validate(t_lem_in *lem_in)
 		!lem_in->adj_list || (lem_in->count_paths && !lem_in->path[0][0]))
 		return (1);
 	//testing
-	printgraph(lem_in);
+	test_print(lem_in);
 	return (0);
 }

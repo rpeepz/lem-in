@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 15:26:23 by rpapagna          #+#    #+#             */
-/*   Updated: 2022/01/12 19:12:15 by rpapagna         ###   ########.fr       */
+/*   Updated: 2022/02/02 14:20:50 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 //TODO
 // consolidate and optimize unvisit function
 
-static void		unvisit(t_lem_in *lem_in, size_t k)
+static void		unvisit(t_lem_in *lem_in, int k)
 {
-	size_t		i;
-	size_t		j;
-	size_t		n;
-	int			part_of_path;
+	int		i;
+	int		j;
+	int		n;
+	int		part_of_path;
 
 	i = 0;
 	while (i < lem_in->count_nodes)
@@ -52,9 +52,9 @@ static void		unvisit(t_lem_in *lem_in, size_t k)
 	}
 }
 
-static int		visit_neighbors(t_edge *neighbor, char **visited, size_t n)
+static int		visit_neighbors(t_edge *neighbor, char **visited, int n)
 {
-	size_t	i;
+	int		i;
 
 	i = 0;
 	while (i < n)
@@ -97,7 +97,8 @@ static void		bfs(t_lem_in *lem_in)
 
 	queue = queue_init();
 	enqueue(queue, lem_in->adj_list);
-	lem_in->visited[0] = queue_peek(queue);
+	pop = queue_peek(queue);
+	lem_in->visited[0] = pop->node_id;
 	while (!queue_is_empty(queue))
 	{
 		pop = dequeue(queue);
@@ -115,7 +116,7 @@ static void		bfs(t_lem_in *lem_in)
 
 void			find_path(t_lem_in *lem_in)
 {
-	size_t	k;
+	int		k;
 
 	lem_in->visited = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
 	lem_in->path = path_matrix_init(lem_in->count_paths, lem_in->count_nodes);

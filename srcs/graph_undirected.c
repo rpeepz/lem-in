@@ -12,9 +12,9 @@
 
 #include "lem-in.h"
 
-static size_t	count_edges(t_edge *edges)
+static int		count_edges(t_edge *edges)
 {
-	size_t	n;
+	int		n;
 	t_edge	*edge;
 
 	n = 0;

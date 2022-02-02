@@ -12,9 +12,9 @@
 
 #include "lem-in.h"
 
-void			path_matrix_destroy(char ***path, size_t cells)
+void			path_matrix_destroy(char ***path, int cells)
 {
-	size_t	i;
+	int		i;
 
 	i = 0;
 	while (i < cells)
@@ -25,10 +25,10 @@ void			path_matrix_destroy(char ***path, size_t cells)
 	ft_memdel((void**)&path);
 }
 
-char			***path_matrix_init(size_t cells, size_t rows)
+char			***path_matrix_init(int cells, int rows)
 {
 	char	***path;
-	size_t	i;
+	int		i;
 
 	path = ft_memalloc(sizeof(char**) * (cells + 1));
 	i = 0;
@@ -42,7 +42,7 @@ char			***path_matrix_init(size_t cells, size_t rows)
 
 void			path_matrix_save(char ***path, char *neighbor, char *node)
 {
-	size_t	i;
+	int		i;
 
 	i = 0;
 	while (path[i] && path[i][0])
@@ -51,10 +51,10 @@ void			path_matrix_save(char ***path, char *neighbor, char *node)
 	path[i][1] = node;
 }
 
-void			path_matrix_reconstruct(t_lem_in *lem_in, size_t k)
+void			path_matrix_reconstruct(t_lem_in *lem_in, int k)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 
 	lem_in->path[k][0] = lem_in->end_id;
 	i = 1;
