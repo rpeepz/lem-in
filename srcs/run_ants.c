@@ -6,24 +6,25 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 15:23:22 by rpapagna          #+#    #+#             */
-/*   Updated: 2021/12/17 15:23:22 by rpapagna         ###   ########.fr       */
+/*   Updated: 2021/02/02 15:21:32 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "lem-in.h"
 
-static size_t	**count_path_steps(char ***path, size_t n)
+static int		**set_path_info(char ***path, int n)
 {
-	size_t	**a;
-	size_t	i;
-	size_t	j;
+	int	**a;
+	int		i;
+	int		j;
 
-	a = ft_memalloc(sizeof(size_t*) * n);
+	a = ft_memalloc(sizeof(int*) * n);
 	i = 0;
 	while (i < n)
 	{
 		j = 0;
-		a[i] = ft_memalloc(sizeof(size_t) * 2);
+		a[i] = ft_memalloc(sizeof(int) * 2);
 		while (path[i][j + 1])
 		{
 			++a[i][0];
@@ -34,73 +35,94 @@ static size_t	**count_path_steps(char ***path, size_t n)
 	return (a);
 }
 
-static size_t	find_best_path(size_t **path_steps, size_t n)
+static int		find_best_path(int **path_info, int n)
 {
-	size_t	i;
-	size_t	min;
+	int		i;
+	int		min;
 
 	i = 0;
-	min = path_steps[i][0] + path_steps[i][1];
-	while (i < n)
+	min = path_info[i][0] + path_info[i][1];
+	while (i < (int)n)
 	{
-		if (path_steps[i][0])
-			if ((path_steps[i][0] + path_steps[i][1]) < min)
+		if (path_info[i][0])
+			if ((path_info[i][0] + path_info[i][1]) < min)
 				return (i);
 		++i;
 	}
 	return (0);
 }
 
-static void		set_ants_in_path(size_t **path_steps, t_lem_in *lem_in)
+static int		set_ants_in_path(int **path_info, t_lem_in *lem_in)
 {
-	size_t	ants;
-	size_t	i;
+	int		ants;
+	int		i;
+	int		a;
 
-	ants = (lem_in->ants - 1);
-	++path_steps[0][1];
+	ants = (int)(lem_in->ants - 1);
+	++path_info[0][1];
 	while (ants)
 	{
-		i = find_best_path(path_steps, lem_in->count_paths);
-		path_steps[i][1] += 1;
+		i = find_best_path(path_info, lem_in->count_paths);
+		path_info[i][1] += 1;
 		--ants;
 	}
+	i = 0;
+	a = 0;
+	while (i < (int)lem_in->count_paths)
+	{
+		if (path_info[i][1])
+			++a;
+		++i;
+	}
+	return (a);
 }
-#include<stdio.h>
-void			run_ants(t_lem_in *lem_in)
+
+void			move_ants(int **path_info, t_lem_in *lem_in, int n, int ant)
 {
-	size_t		**path_steps;
-	size_t		i;
+	int		i;
+	int		j;
+	int		x;
 
-	path_steps = count_path_steps(lem_in->path, lem_in->count_paths);
-	set_ants_in_path(path_steps, lem_in);
-
-	//testing
+	i = 0;
+	j = 1;
+	while (ant + i + n > 0)
 	{
-		printf("%ld ants\n", lem_in->ants);
-		for (size_t i = 0; i < lem_in->count_paths; i++) {
-			printf("path_steps[%ld][0] = %ld (steps in path)\n", i, path_steps[i][0]);
-			printf("path_steps[%ld][1] = %ld (ants in path)\n", i, path_steps[i][1]);
-		}
-		printf("\n");
-	}
-
-	//print running ants
-	{
-		for (size_t i = 0; i < lem_in->count_paths; i++) {
-			printf("%ld (steps in path)\n", path_steps[i][0]);
-			printf("%ld (ants in path)\n", path_steps[i][1]);
-		}
-		printf("\n");
-	}
-	//free `path_steps`
-	{
+		ant -= n;
 		i = 0;
-		while (i < lem_in->count_paths)
+		x = j;
+		while (i < (int)lem_in->ants && (ant + i) < (int)lem_in->ants)
 		{
-			ft_memdel((void**)&path_steps[i]);
+			if (i && (i % n == 0))
+				x = j - (i / n);
+			if (x <= path_info[i % n][0] && lem_in->path[i % n][x])
+				printf("L%d-%s ", i + 1, lem_in->path[i % n][x]);
 			++i;
 		}
+		++j;
+		printf("\n");
+		// printf("(i = %d)", i);
+		// printf("(j = %d)", j);
+		// printf("(x = %d)", x);
+		// printf("(ant = %d)", ant);
+		// printf("(n = %d)", n);
 	}
+}
 
-	ft_memdel((void**)&path_steps);
+void			run_ants(t_lem_in *lem_in)
+{
+	int		**path_info;
+	int		n;
+	int		i;
+// lem_in->ants = 22;
+	path_info = set_path_info(lem_in->path, lem_in->count_paths);
+	n = set_ants_in_path(path_info, lem_in);
+	printf("%s\n", lem_in->file);
+	move_ants(path_info, lem_in, n, (int)lem_in->ants);
+	i = 0;
+	while (i < (int)lem_in->count_paths)
+	{
+		ft_memdel((void**)&path_info[i]);
+		++i;
+	}
+	ft_memdel((void**)&path_info);
 }
