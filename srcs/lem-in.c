@@ -6,13 +6,13 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:52:59 by rpapagna          #+#    #+#             */
-/*   Updated: 2021/12/17 16:17:54 by rpapagna         ###   ########.fr       */
+/*   Updated: 2021/02/02 14:21:14 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem-in.h"
 
-void	die(t_lem_in *lem_in)
+static void		die(t_lem_in *lem_in)
 {
 	t_graph	*graph;
 	t_edge	*edge;
@@ -31,21 +31,38 @@ void	die(t_lem_in *lem_in)
 		ft_memdel((void**)&lem_in->adj_list);
 		lem_in->adj_list = graph;
 	}
+	ft_memdel((void**)&lem_in->file);
 	ft_memdel((void**)&lem_in->start_id);
 	ft_memdel((void**)&lem_in->end_id);
 	ft_memdel((void**)&lem_in->visited);
 	path_matrix_destroy(lem_in->path, lem_in->count_paths);
 }
 
-int		get_file(t_lem_in *lem_in)
+static void		save_file(char *buf, t_lem_in *lem_in)
+{
+	char	*tmp;
+
+	if (!ft_strncmp(buf, START, 7) || !ft_strncmp(buf, END, 5) ||\
+	(buf[0] && buf[1] && buf[0] != '#' && buf[1] != '#'))
+	{
+		tmp = str_3join(lem_in->file, buf, "\n");
+		ft_memdel((void**)&lem_in->file);
+		lem_in->file = ft_strdup(tmp);
+		ft_memdel((void**)&tmp);
+	}
+}
+
+static int		get_file(t_lem_in *lem_in)
 {
 	char	*buf;
 	int		err;
 
 	err = 0;
-	int fd = open("./maps/test.map", O_RDONLY);
-	while ((get_next_line(fd, &buf)) > 0)
+	lem_in->file = ft_strdup("");
+	// int fd = open("./maps/pdf2.map", O_RDONLY);
+	while ((get_next_line(0, &buf)) > 0)
 	{
+		save_file(buf, lem_in);
 		if (!lem_in->ants)
 		{	
 			if (!ft_isdigit(buf[0]))
@@ -62,7 +79,7 @@ int		get_file(t_lem_in *lem_in)
 	return (err);
 }
 
-int		main(void)
+int				main(void)
 {
 	t_lem_in	lem_in;
 	int			err;
