@@ -36,14 +36,14 @@ int		create_graph(char *line, t_lem_in *lem_in)
 {
 	if (ft_strrchri(line, ' ') && (!(line[0] == '#' || line[0] == 'L')))
 		add_adj_list_node(line, lem_in);
-	if (lem_in->check_start)
+	if (lem_in->check_start && line[0] != '#')
 	{
 		if (lem_in->start_id)
 			return (1);
 		lem_in->start_id = ft_strndup(line, ft_strchri(line, ' '));
 		lem_in->check_start = 0;
 	}
-	else if (lem_in->check_end)
+	else if (lem_in->check_end && line[0] != '#')
 	{
 		if (lem_in->end_id)
 			return (1);
