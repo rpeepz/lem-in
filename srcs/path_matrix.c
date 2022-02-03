@@ -34,7 +34,7 @@ char			***path_matrix_init(int cells, int rows)
 	i = 0;
 	while (i < cells)
 	{
-		path[i] = ft_memalloc(sizeof(char*) * (rows));
+		path[i] = ft_memalloc(sizeof(char*) * (rows + 1));
 		++i;
 	}
 	return (path);
