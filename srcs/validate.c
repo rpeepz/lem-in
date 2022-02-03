@@ -18,10 +18,10 @@ static void	test_print(t_lem_in *lem_in)
 	t_edge	*edge;
 
 	node = lem_in->adj_list;
-	printf("ants\t%ld\n", lem_in->ants);
+	printf("ants\t%d\n", lem_in->ants);
 	printf("start\t%s\n", lem_in->start_id);
 	printf("end\t%s\n", lem_in->end_id);
-	printf("nodes\t%ld\n\n", lem_in->count_nodes);
+	printf("nodes\t%d\n\n", lem_in->count_nodes);
 	while (lem_in->adj_list)
 	{
 		printf("node  %s\n", lem_in->adj_list->node_id);
@@ -40,9 +40,11 @@ static void	test_print(t_lem_in *lem_in)
 	{
 		for (int i = 0; i < lem_in->count_paths; i++)
 		{
+			printf("path %d:\n", i);
+			printf("steps = %d:\n", lem_in->count_nodes);
 			for (int j = 0; j < lem_in->count_nodes; j++)
 			{
-				printf("path[%ld][%ld] = %s\n", i, j, lem_in->path[i][j]);
+				printf("path[%d][%d] = %s\n", i, j, lem_in->path[i][j]);
 			}
 			printf("\n");
 		}

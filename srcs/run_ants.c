@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "lem-in.h"
 
 static int		**set_path_info(char ***path, int n)
@@ -100,11 +99,6 @@ void			move_ants(int **path_info, t_lem_in *lem_in, int n, int ant)
 		}
 		++j;
 		ft_putchar('\n');
-		// printf("(i = %d)", i);
-		// printf("(j = %d)", j);
-		// printf("(x = %d)", x);
-		// printf("(ant = %d)", ant);
-		// printf("(n = %d)", n);
 	}
 }
 
@@ -113,7 +107,7 @@ void			run_ants(t_lem_in *lem_in)
 	int		**path_info;
 	int		n;
 	int		i;
-// lem_in->ants = 22;
+
 	path_info = set_path_info(lem_in->path, lem_in->count_paths);
 	n = set_ants_in_path(path_info, lem_in);
 	print_file(lem_in->file);
