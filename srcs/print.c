@@ -14,13 +14,17 @@
 
 void		print_movement(int a, char *s)
 {
+	char	*nbr;
+
+	nbr = ft_itoa(a);
 	ft_putchar('L');
-	ft_putnbr(a);
+	ft_putstr(nbr);
 	ft_putchar('-');
 	a = -1;
 	while (s[++a])
 		ft_putchar(s[a]);
 	ft_putchar(' ');
+	ft_memdel((void**)&nbr);
 }
 
 void		print_file(char *s)
