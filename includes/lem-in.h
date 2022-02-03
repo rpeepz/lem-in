@@ -110,6 +110,8 @@ int					validate(t_lem_in *lem_in);
 void				graph_undirected(t_lem_in *lem_in);
 void				find_path(t_lem_in *lem_in);
 void				run_ants(t_lem_in *lem_in);
+void				print_movement(int a, char *s);
+void				print_file(char *s);
 
 char				***path_matrix_init(int cells, int rows);
 void				path_matrix_save(char ***path, char *neighbor, char *node);

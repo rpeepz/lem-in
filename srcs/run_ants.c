@@ -95,11 +95,11 @@ void			move_ants(int **path_info, t_lem_in *lem_in, int n, int ant)
 			if (i && (i % n == 0))
 				x = j - (i / n);
 			if (x <= path_info[i % n][0] && lem_in->path[i % n][x])
-				printf("L%d-%s ", i + 1, lem_in->path[i % n][x]);
+				print_movement(i + 1, lem_in->path[i % n][x]);
 			++i;
 		}
 		++j;
-		printf("\n");
+		ft_putchar('\n');
 		// printf("(i = %d)", i);
 		// printf("(j = %d)", j);
 		// printf("(x = %d)", x);
@@ -116,7 +116,7 @@ void			run_ants(t_lem_in *lem_in)
 // lem_in->ants = 22;
 	path_info = set_path_info(lem_in->path, lem_in->count_paths);
 	n = set_ants_in_path(path_info, lem_in);
-	printf("%s\n", lem_in->file);
+	print_file(lem_in->file);
 	move_ants(path_info, lem_in, n, (int)lem_in->ants);
 	i = 0;
 	while (i < (int)lem_in->count_paths)
