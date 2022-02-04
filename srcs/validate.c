@@ -11,52 +11,11 @@
 /* ************************************************************************** */
 
 #include "lem-in.h"
-#include <stdio.h>
-static void	test_print(t_lem_in *lem_in)
-{
-	t_graph	*node;
-	t_edge	*edge;
-
-	node = lem_in->adj_list;
-	printf("ants\t%d\n", lem_in->ants);
-	printf("start\t%s\n", lem_in->start_id);
-	printf("end\t%s\n", lem_in->end_id);
-	printf("nodes\t%d\n\n", lem_in->count_nodes);
-	while (lem_in->adj_list)
-	{
-		printf("node  %s\n", lem_in->adj_list->node_id);
-		edge = lem_in->adj_list->edges;
-		while (lem_in->adj_list->edges)
-		{
-			printf("\tedge-%s\n", lem_in->adj_list->edges->dest_id);
-			lem_in->adj_list->edges = lem_in->adj_list->edges->next;
-		}
-		lem_in->adj_list->edges = edge;
-		printf("\n");
-		lem_in->adj_list = lem_in->adj_list->next;
-	}
-	lem_in->adj_list = node;
-	if (lem_in->path)
-	{
-		for (int i = 0; i < lem_in->count_paths; i++)
-		{
-			printf("path %d:\n", i);
-			printf("steps = %d:\n", lem_in->count_nodes);
-			for (int j = 0; j < lem_in->count_nodes; j++)
-			{
-				printf("path[%d][%d] = %s\n", i, j, lem_in->path[i][j]);
-			}
-			printf("\n");
-		}
-	}
-}
 
 int		validate(t_lem_in *lem_in)
 {
 	if (!lem_in->ants || !lem_in->start_id || !lem_in->end_id ||\
 		!lem_in->adj_list || (lem_in->count_paths && !lem_in->path[0][0]))
 		return (1);
-	//testing
-	test_print(lem_in);
 	return (0);
 }

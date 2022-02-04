@@ -59,11 +59,11 @@ static int		get_file(t_lem_in *lem_in)
 
 	err = 0;
 	lem_in->file = ft_strdup("");
-	// int fd = open("./maps/pdf2.map", O_RDONLY);
 	while ((get_next_line(0, &buf)) > 0)
 	{
 		save_file(buf, lem_in);
-		if (!lem_in->ants)
+		if (!(lem_in->ants || buf[0] == '#' || \
+			ft_strrchri(buf, ' ') || ft_strrchri(buf, '-')))
 		{	
 			if (!ft_isdigit(buf[0]))
 				break ;

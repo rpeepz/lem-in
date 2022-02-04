@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "lem-in.h"
-
+#include <stdio.h>
 //TODO
 // consolidate and optimize unvisit function
 

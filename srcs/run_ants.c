@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 15:23:22 by rpapagna          #+#    #+#             */
-/*   Updated: 2021/02/02 15:21:32 by rpapagna         ###   ########.fr       */
+/*   Updated: 2021/02/04 13:03:32 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,22 +82,25 @@ void			move_ants(int **path_info, t_lem_in *lem_in, int n, int ant)
 	int		j;
 	int		x;
 
-	i = 0;
-	j = 1;
-	while (ant + i + n > 0)
+	j = 0;
+	while (continue_movement(path_info, lem_in->count_paths))
 	{
 		ant -= n;
 		i = 0;
-		x = j;
+		x = ++j;
 		while (i < (int)lem_in->ants && (ant + i) < (int)lem_in->ants)
 		{
 			if (i && (i % n == 0))
 				x = j - (i / n);
 			if (x <= path_info[i % n][0] && lem_in->path[i % n][x])
+			{
 				print_movement(i + 1, lem_in->path[i % n][x]);
+				if (path_info[i % n][1] && \
+					lem_in->path[i % n][x] == lem_in->end_id)
+					--path_info[i % n][1];
+			}
 			++i;
 		}
-		++j;
 		ft_putchar('\n');
 	}
 }
