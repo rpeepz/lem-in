@@ -90,6 +90,7 @@ void			move_ants(int **path_info, t_lem_in *lem_in, int n, int ant)
 		x = ++j;
 		while (i < (int)lem_in->ants && (ant + i) < (int)lem_in->ants)
 		{
+			//somewhere here i need to follow the order of ants in `path_info`
 			if (i && (i % n == 0))
 				x = j - (i / n);
 			if (x <= path_info[i % n][0] && lem_in->path[i % n][x])
