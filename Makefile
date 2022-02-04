@@ -26,6 +26,7 @@ GREEN	=\033[0;32m
 NC		=\033[0m
 
 SRCS	= add_edge.c \
+		continue_movement.c \
 		create_graph.c \
 		find_path.c \
 		graph_undirected.c \

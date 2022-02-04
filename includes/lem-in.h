@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 13:53:54 by rpapagna          #+#    #+#             */
-/*   Updated: 2022/02/22 14:20:10 by rpapagna         ###   ########.fr       */
+/*   Updated: 2022/02/04 13:03:21 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int					validate(t_lem_in *lem_in);
 void				graph_undirected(t_lem_in *lem_in);
 void				find_path(t_lem_in *lem_in);
 void				run_ants(t_lem_in *lem_in);
+int					continue_movement(int **path_info, int n);
 void				print_movement(int a, char *s);
 void				print_file(char *s);
 
@@ -123,6 +124,5 @@ int 				queue_is_empty(t_queue *queue);
 void 				*queue_peek(t_queue *queue);
 void				enqueue(t_queue *queue, void *content);
 void				*dequeue(t_queue *queue);
-
 
 #endif
