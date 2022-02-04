@@ -33,15 +33,18 @@ static t_graph	*push_start_to_front(t_graph *adj_list, char *start_id)
 	t_graph	*prev;
 	t_graph	*tmp;
 
-	head = adj_list;
-	while (ft_strcmp(start_id, adj_list->node_id))
+	if (ft_strcmp(start_id, adj_list->node_id))
 	{
-		prev = adj_list;
-		adj_list = adj_list->next;
+		head = adj_list;
+		while (ft_strcmp(start_id, adj_list->node_id))
+		{
+			prev = adj_list;
+			adj_list = adj_list->next;
+		}
+		prev->next = adj_list->next;
+		tmp = head;
+		adj_list->next = tmp;
 	}
-	prev->next = adj_list->next;
-	tmp = head;
-	adj_list->next = tmp;
 	return (adj_list);
 }
 
