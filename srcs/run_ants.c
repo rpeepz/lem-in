@@ -81,8 +81,10 @@ static void		ant_start(t_lem_in *lem_in, int **farm, int **path_info, int n)
 static void		move_ants(int **path_info, t_lem_in *lem_in, int n)
 {
 	int		**farm;
-	int i = 0;
+	int		i;
+	
 	farm = ant_farm(lem_in->ants);
+	i = 0;
 	while (!i || continue_movement(farm, lem_in->ants))
 	{
 		i = 1;
@@ -90,6 +92,13 @@ static void		move_ants(int **path_info, t_lem_in *lem_in, int n)
 		ant_start(lem_in, farm, path_info, n);
 		ft_putchar('\n');
 	}
+	i = 0;
+	while (i < lem_in->ants)
+	{
+		ft_memdel((void**)&farm[i]);
+		++i;
+	}
+	ft_memdel((void**)&farm);
 }
 
 void			run_ants(t_lem_in *lem_in)
