@@ -12,96 +12,82 @@
 
 #include "lem-in.h"
 
-static int		**set_path_info(char ***path, int n)
+static int		**ant_farm(int n)
 {
-	int	**a;
+	int		**a;
 	int		i;
-	int		j;
 
 	a = ft_memalloc(sizeof(int*) * n);
 	i = 0;
 	while (i < n)
 	{
-		j = 0;
 		a[i] = ft_memalloc(sizeof(int) * 2);
-		while (path[i][j + 1])
+		++i;
+	}
+	return (a);
+}
+
+static void		ant_continue(t_lem_in *lem_in, int **farm)
+{
+	int		i;
+	int		p;
+
+	i = 0;
+	p = 0;
+	while (i < lem_in->ants)
+	{
+		if (farm[i][1] > 0)
 		{
-			++a[i][0];
-			++j;
+			if (p)
+				ft_putchar(' ');
+			++farm[i][1];
+			print_movement(i + 1, lem_in->path[farm[i][0]][farm[i][1]]);
+			p = 1;
+			if (lem_in->path[farm[i][0]][farm[i][1]] == lem_in->end_id)
+				farm[i][1] = -1;
 		}
 		++i;
 	}
-	return (a);
 }
 
-static int		find_best_path(int **path_info, int n)
-{
-	int		i;
-	int		min;
-
-	i = 0;
-	min = path_info[i][0] + path_info[i][1];
-	while (i < (int)n)
-	{
-		if (path_info[i][0])
-			if ((path_info[i][0] + path_info[i][1]) < min)
-				return (i);
-		++i;
-	}
-	return (0);
-}
-
-static int		set_ants_in_path(int **path_info, t_lem_in *lem_in)
-{
-	int		ants;
-	int		i;
-	int		a;
-
-	ants = (int)(lem_in->ants - 1);
-	++path_info[0][1];
-	while (ants)
-	{
-		i = find_best_path(path_info, lem_in->count_paths);
-		path_info[i][1] += 1;
-		--ants;
-	}
-	i = 0;
-	a = 0;
-	while (i < (int)lem_in->count_paths)
-	{
-		if (path_info[i][1])
-			++a;
-		++i;
-	}
-	return (a);
-}
-
-void			move_ants(int **path_info, t_lem_in *lem_in, int n, int ant)
+static void		ant_start(t_lem_in *lem_in, int **farm, int **path_info, int n)
 {
 	int		i;
 	int		j;
-	int		x;
 
-	j = 0;
-	while (continue_movement(path_info, lem_in->count_paths))
+	i = -1;
+	while (++i < n)
 	{
-		ant -= n;
-		i = 0;
-		x = ++j;
-		while (i < (int)lem_in->ants && (ant + i) < (int)lem_in->ants)
+		if (path_info[i][1])
 		{
-			//somewhere here i need to follow the order of ants in `path_info`
-			if (i && (i % n == 0))
-				x = j - (i / n);
-			if (x <= path_info[i % n][0] && lem_in->path[i % n][x])
+			j = -1;
+			while (++j < lem_in->ants)
 			{
-				print_movement(i + 1, lem_in->path[i % n][x]);
-				if (path_info[i % n][1] && \
-					lem_in->path[i % n][x] == lem_in->end_id)
-					--path_info[i % n][1];
+				if (farm[j][1] == 0)
+				{
+					if (j)
+						ft_putchar(' ');
+					--path_info[i][1];
+					farm[j][0] = i;
+					farm[j][1] = 1;
+					print_movement(j + 1, lem_in->path[farm[j][0]][farm[j][1]]);
+					break ;
+				}
 			}
-			++i;
 		}
+	}
+}
+
+static void		move_ants(int **path_info, t_lem_in *lem_in, int n)
+{
+	int		**farm;
+	int i = 0;
+	farm = ant_farm(lem_in->ants);
+	while (!i || continue_movement(farm, lem_in->ants))
+	{
+		i = 1;
+		ant_continue(lem_in, farm);
+		ant_start(lem_in, farm, path_info, n);
 		ft_putchar('\n');
 	}
 }
@@ -115,7 +101,7 @@ void			run_ants(t_lem_in *lem_in)
 	path_info = set_path_info(lem_in->path, lem_in->count_paths);
 	n = set_ants_in_path(path_info, lem_in);
 	print_file(lem_in->file);
-	move_ants(path_info, lem_in, n, (int)lem_in->ants);
+	move_ants(path_info, lem_in, n);
 	i = 0;
 	while (i < (int)lem_in->count_paths)
 	{
