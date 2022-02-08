@@ -110,9 +110,11 @@ int					validate(t_lem_in *lem_in);
 void				graph_undirected(t_lem_in *lem_in);
 void				find_path(t_lem_in *lem_in);
 void				run_ants(t_lem_in *lem_in);
-int					continue_movement(int **path_info, int n);
-void				print_movement(int a, char *s);
+int					**set_path_info(char ***path, int n);
+int					set_ants_in_path(int **path_info, t_lem_in *lem_in);
 void				print_file(char *s);
+int					continue_movement(int **farm, int n);
+void				print_movement(int a, char *s);
 
 char				***path_matrix_init(int cells, int rows);
 void				path_matrix_save(char ***path, char *neighbor, char *node);
