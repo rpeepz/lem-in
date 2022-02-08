@@ -12,14 +12,14 @@
 
 #include "lem-in.h"
 
-int		continue_movement(int **path_info, int n)
+int		continue_movement(int **farm, int n)
 {
 	int		i;
-	
+
 	i = 0;
 	while (i < n)
 	{
-		if (path_info[i][1])
+		if (farm[i][1] > 0)
 			return (1);
 		++i;
 	}

@@ -23,7 +23,6 @@ void		print_movement(int a, char *s)
 	a = -1;
 	while (s[++a])
 		ft_putchar(s[a]);
-	ft_putchar(' ');
 	ft_memdel((void**)&nbr);
 }
 
