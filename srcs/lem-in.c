@@ -59,7 +59,7 @@ static int		get_file(t_lem_in *lem_in)
 
 	err = 0;
 	lem_in->file = ft_strdup("");
-	while ((get_next_line(fd, &buf)) > 0)
+	while ((get_next_line(0, &buf)) > 0)
 	{
 		save_file(buf, lem_in);
 		if (!(lem_in->ants || buf[0] == '#' || \
