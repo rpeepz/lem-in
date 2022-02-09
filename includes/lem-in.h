@@ -109,6 +109,7 @@ void				add_edge(char *line, t_lem_in *lem_in);
 int					validate(t_lem_in *lem_in);
 void				graph_undirected(t_lem_in *lem_in);
 void				find_path(t_lem_in *lem_in);
+void				unvisit_neighbors(t_lem_in *lem_in, int k);
 void				run_ants(t_lem_in *lem_in);
 int					**set_path_info(char ***path, int n);
 int					set_ants_in_path(int **path_info, t_lem_in *lem_in);

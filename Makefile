@@ -38,6 +38,7 @@ SRCS	= add_edge.c \
 		reverse_array.c \
 		run_ants.c \
 		split_line.c \
+		unvisit_neighbors.c \
 		validate.c
 
 OBJ		= $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))

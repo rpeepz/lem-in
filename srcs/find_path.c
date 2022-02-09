@@ -11,45 +11,6 @@
 /* ************************************************************************** */
 
 #include "lem-in.h"
-//TODO
-// consolidate and optimize unvisit function
-
-static void		unvisit(t_lem_in *lem_in, int k)
-{
-	int		i;
-	int		j;
-	int		n;
-	int		part_of_path;
-
-	i = 0;
-	while (i < lem_in->count_nodes)
-	{
-		if (!lem_in->visited[i] || !ft_strcmp(lem_in->visited[i], lem_in->end_id))
-			lem_in->visited[i] = NULL;
-		else
-		{
-			part_of_path = 0;
-			n = 0;
-			while (!part_of_path && n <= k)
-			{
-				j = 0;
-				while (!part_of_path && lem_in->path[n][j])
-				{
-					if (!ft_strcmp(lem_in->visited[i], lem_in->path[n][j]))
-						part_of_path = 1;
-					else
-						++j;
-				}
-				if (!part_of_path)
-					++n;
-			}
-			if (n > k)
-				--n;
-			lem_in->visited[i] = lem_in->path[n][j];
-		}
-		++i;
-	}
-}
 
 static int		visit_neighbors(t_edge *neighbor, char **visited, int n)
 {
@@ -128,7 +89,7 @@ void			find_path(t_lem_in *lem_in)
 		if (reverse_array(lem_in->path[k], lem_in->count_nodes) < 2)
 			lem_in->path[k][0] = NULL;
 		else if (!ft_strcmp(lem_in->path[k][0], lem_in->start_id))
-			unvisit(lem_in, k);
+			unvisit_neighbors(lem_in, k);
 		++k;
 	}
 }
