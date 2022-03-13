@@ -39,7 +39,7 @@ void		enqueue(t_queue *queue, void *content)
 {
 	t_node	*new_node;
 
-	new_node = ft_memalloc(sizeof(new_node));
+	new_node = ft_memalloc(sizeof(t_node));
 	new_node->content = content;
 	new_node->next = NULL;
 	if (queue_is_empty(queue))
