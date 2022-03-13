@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-int			**set_path_info(char ***path, int n)
+int	**set_path_info(char ***path, int n)
 {
 	int		**a;
 	int		i;
 	int		j;
 
-	a = ft_memalloc(sizeof(int*) * n);
+	a = ft_memalloc(sizeof(int *) * n);
 	i = 0;
 	while (i < n)
 	{
@@ -51,7 +51,7 @@ static int	find_best_path(int **path_info, int n)
 	return (0);
 }
 
-int			set_ants_in_path(int **path_info, t_lem_in *lem_in)
+int	set_ants_in_path(int **path_info, t_lem_in *lem_in)
 {
 	int		ants;
 	int		i;

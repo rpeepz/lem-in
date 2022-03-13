@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-void			add_edge(char *line, t_lem_in *lem_in)
+void	add_edge(char *line, t_lem_in *lem_in)
 {
 	char	**buf;
 	t_edge	*new_edge;

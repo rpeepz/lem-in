@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-int		continue_movement(int **farm, int n)
+int	continue_movement(int **farm, int n)
 {
 	int		i;
 

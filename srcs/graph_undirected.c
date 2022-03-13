@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-static int		count_edges(t_edge *edges)
+static int	count_edges(t_edge *edges)
 {
 	int		n;
 	t_edge	*edge;
@@ -48,7 +48,7 @@ static t_graph	*push_start_to_front(t_graph *adj_list, char *start_id)
 	return (adj_list);
 }
 
-static void		append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
+static void	append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
 {
 	t_graph		*n;
 	t_edge		*new_edge;
@@ -77,7 +77,7 @@ static void		append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
 		n->edges = new_edge;
 }
 
-void			graph_undirected(t_lem_in *lem_in)
+void	graph_undirected(t_lem_in *lem_in)
 {
 	t_graph		*node;
 	t_edge		*edge;

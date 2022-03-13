@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
 void	add_adj_list_node(char *line, t_lem_in *lem_in)
 {
@@ -32,7 +32,7 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	free(buf);
 }
 
-int		create_graph(char *line, t_lem_in *lem_in)
+int	create_graph(char *line, t_lem_in *lem_in)
 {
 	if (ft_strrchri(line, ' ') && (!(line[0] == '#' || line[0] == 'L')))
 		add_adj_list_node(line, lem_in);

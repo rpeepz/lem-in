@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-static void		part_of_path(t_lem_in *lem_in, int i, int k, int *n)
+static void	part_of_path(t_lem_in *lem_in, int i, int k, int *n)
 {
 	int		p;
 
@@ -35,7 +35,7 @@ static void		part_of_path(t_lem_in *lem_in, int i, int k, int *n)
 		--n[0];
 }
 
-void			unvisit_neighbors(t_lem_in *lem_in, int k)
+void	unvisit_neighbors(t_lem_in *lem_in, int k)
 {
 	int		i;
 	int		n[2];
@@ -43,7 +43,7 @@ void			unvisit_neighbors(t_lem_in *lem_in, int k)
 	i = 0;
 	while (i < lem_in->count_nodes)
 	{
-		if (!lem_in->visited[i] ||\
+		if (!lem_in->visited[i] || \
 			!ft_strcmp(lem_in->visited[i], lem_in->end_id))
 			lem_in->visited[i] = NULL;
 		else

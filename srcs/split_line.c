@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-static int		word_len(char *s, char c)
+static int	word_len(char *s, char c)
 {
 	int		i;
 	int		len;
@@ -29,15 +29,15 @@ static int		word_len(char *s, char c)
 	return (len);
 }
 
-char			**split_line(char *s, char c)
+char	**split_line(char *s, char c)
 {
 	char	**arr;
 	int		i;
 	int		j;
 	int		n;
-	
+
 	n = ft_countwords(s, c);
-	arr = ft_memalloc(sizeof(char*) * (n + 1));
+	arr = ft_memalloc(sizeof(char *) * (n + 1));
 	i = 0;
 	j = 0;
 	while (i < n)

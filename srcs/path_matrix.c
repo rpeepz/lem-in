@@ -10,37 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-void			path_matrix_destroy(char ***path, int cells)
+void	path_matrix_destroy(char ***path, int cells)
 {
 	int		i;
 
 	i = 0;
 	while (i < cells)
 	{
-		ft_memdel((void**)&path[i]);
+		ft_memdel((void **)&path[i]);
 		++i;
 	}
-	ft_memdel((void**)&path);
+	ft_memdel((void **)&path);
 }
 
-char			***path_matrix_init(int cells, int rows)
+char	***path_matrix_init(int cells, int rows)
 {
 	char	***path;
 	int		i;
 
-	path = ft_memalloc(sizeof(char**) * (cells + 1));
+	path = ft_memalloc(sizeof(char **) * (cells + 1));
 	i = 0;
 	while (i < cells)
 	{
-		path[i] = ft_memalloc(sizeof(char*) * (rows + 1));
+		path[i] = ft_memalloc(sizeof(char *) * (rows + 1));
 		++i;
 	}
 	return (path);
 }
 
-void			path_matrix_save(char ***path, char *neighbor, char *node)
+void	path_matrix_save(char ***path, char *neighbor, char *node)
 {
 	int		i;
 
@@ -51,7 +51,7 @@ void			path_matrix_save(char ***path, char *neighbor, char *node)
 	path[i][1] = node;
 }
 
-void			path_matrix_reconstruct(t_lem_in *lem_in, int k)
+void	path_matrix_reconstruct(t_lem_in *lem_in, int k)
 {
 	int		i;
 	int		j;

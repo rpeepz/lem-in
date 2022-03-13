@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-static int		visit_neighbors(t_edge *neighbor, char **visited, int n)
+static int	visit_neighbors(t_edge *neighbor, char **visited, int n)
 {
 	int		i;
 
@@ -30,11 +30,11 @@ static int		visit_neighbors(t_edge *neighbor, char **visited, int n)
 	return (0);
 }
 
-static void		queue_neighbors(t_lem_in *lem_in, t_graph *pop, t_queue *queue)
+static void	queue_neighbors(t_lem_in *lem_in, t_graph *pop, t_queue *queue)
 {
 	t_edge	*neighbor;
-	t_graph *node;
-	
+	t_graph	*node;
+
 	neighbor = pop->edges;
 	while (neighbor)
 	{
@@ -50,7 +50,7 @@ static void		queue_neighbors(t_lem_in *lem_in, t_graph *pop, t_queue *queue)
 	}
 }
 
-static void		bfs(t_lem_in *lem_in)
+static void	bfs(t_lem_in *lem_in)
 {
 	t_queue		*queue;
 	t_graph		*pop;
@@ -71,14 +71,14 @@ static void		bfs(t_lem_in *lem_in)
 		else
 			queue_neighbors(lem_in, pop, queue);
 	}
-	ft_memdel((void**)&queue);
+	ft_memdel((void **)&queue);
 }
 
-void			find_path(t_lem_in *lem_in)
+void	find_path(t_lem_in *lem_in)
 {
 	int		k;
 
-	lem_in->visited = ft_memalloc(sizeof(char*) * (lem_in->count_nodes + 1));
+	lem_in->visited = ft_memalloc(sizeof(char *) * (lem_in->count_nodes + 1));
 	lem_in->path = path_matrix_init(lem_in->count_paths, lem_in->count_nodes);
 	k = 0;
 	while (k < lem_in->count_paths)

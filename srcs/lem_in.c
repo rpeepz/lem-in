@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-static void		die(t_lem_in *lem_in)
+static void	die(t_lem_in *lem_in)
 {
 	t_graph	*graph;
 	t_edge	*edge;
@@ -23,36 +23,36 @@ static void		die(t_lem_in *lem_in)
 		while (lem_in->adj_list->edges)
 		{
 			edge = lem_in->adj_list->edges->next;
-			ft_memdel((void**)&lem_in->adj_list->edges->dest_id);
-			ft_memdel((void**)&lem_in->adj_list->edges);
+			ft_memdel((void **)&lem_in->adj_list->edges->dest_id);
+			ft_memdel((void **)&lem_in->adj_list->edges);
 			lem_in->adj_list->edges = edge;
 		}
-		ft_memdel((void**)&lem_in->adj_list->node_id);
-		ft_memdel((void**)&lem_in->adj_list);
+		ft_memdel((void **)&lem_in->adj_list->node_id);
+		ft_memdel((void **)&lem_in->adj_list);
 		lem_in->adj_list = graph;
 	}
-	ft_memdel((void**)&lem_in->file);
-	ft_memdel((void**)&lem_in->start_id);
-	ft_memdel((void**)&lem_in->end_id);
-	ft_memdel((void**)&lem_in->visited);
+	ft_memdel((void **)&lem_in->file);
+	ft_memdel((void **)&lem_in->start_id);
+	ft_memdel((void **)&lem_in->end_id);
+	ft_memdel((void **)&lem_in->visited);
 	path_matrix_destroy(lem_in->path, lem_in->count_paths);
 }
 
-static void		save_file(char *buf, t_lem_in *lem_in)
+static void	save_file(char *buf, t_lem_in *lem_in)
 {
 	char	*tmp;
 
-	if (!ft_strncmp(buf, START, 7) || !ft_strncmp(buf, END, 5) ||\
+	if (!ft_strncmp(buf, START, 7) || !ft_strncmp(buf, END, 5) || \
 	(buf[0] && buf[1] && buf[0] != '#' && buf[1] != '#'))
 	{
-		tmp = str_3join(lem_in->file, buf, "\n");
-		ft_memdel((void**)&lem_in->file);
+		tmp = ft_strjoin3(lem_in->file, buf, "\n");
+		ft_memdel((void **)&lem_in->file);
 		lem_in->file = ft_strdup(tmp);
-		ft_memdel((void**)&tmp);
+		ft_memdel((void **)&tmp);
 	}
 }
 
-static int		get_file(t_lem_in *lem_in)
+static int	get_file(t_lem_in *lem_in)
 {
 	char	*buf;
 	int		err;
@@ -75,11 +75,11 @@ static int		get_file(t_lem_in *lem_in)
 			break ;
 		}
 	}
-	ft_memdel((void**)&buf);
+	ft_memdel((void **)&buf);
 	return (err);
 }
 
-int				main(void)
+int	main(void)
 {
 	t_lem_in	lem_in;
 	int			err;

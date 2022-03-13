@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-int			reverse_array(char **array, int n)
+int	reverse_array(char **array, int n)
 {
 	int		s;
 	int		e;

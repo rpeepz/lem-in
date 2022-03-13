@@ -10,32 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-t_queue		*queue_init(void)
+t_queue	*queue_init(void)
 {
 	t_queue	*queue;
 
-	if (!(queue = ft_memalloc(sizeof(t_queue))))
+	queue = ft_memalloc(sizeof(t_queue));
+	if (!queue)
 		return (NULL);
 	queue->first = NULL;
 	queue->last = NULL;
 	return (queue);
 }
 
-int 		queue_is_empty(t_queue *queue)
+int	queue_is_empty(t_queue *queue)
 {
-	return (queue && queue->first ? 0 : 1);
+	if (queue && queue->first)
+		return (0);
+	return (1);
 }
 
-void 		*queue_peek(t_queue *queue)
+void	*queue_peek(t_queue *queue)
 {
 	if (queue_is_empty(queue))
 		return (NULL);
 	return (queue->first->content);
 }
 
-void		enqueue(t_queue *queue, void *content)
+void	enqueue(t_queue *queue, void *content)
 {
 	t_node	*new_node;
 
@@ -54,16 +57,16 @@ void		enqueue(t_queue *queue, void *content)
 	}
 }
 
-void		*dequeue(t_queue *queue)
+void	*dequeue(t_queue *queue)
 {
 	t_node	*pop;
 	void	*p;
-	
+
 	if (queue_is_empty(queue))
 		return (NULL);
 	pop = queue->first;
 	p = pop->content;
 	queue->first = pop->next;
-	ft_memdel((void**)&pop);
+	ft_memdel((void **)&pop);
 	return (p);
 }

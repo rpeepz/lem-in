@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-void		print_movement(int a, char *s)
+void	print_movement(int a, char *s)
 {
 	char	*nbr;
 
@@ -23,10 +23,10 @@ void		print_movement(int a, char *s)
 	a = -1;
 	while (s[++a])
 		ft_putchar(s[a]);
-	ft_memdel((void**)&nbr);
+	ft_memdel((void **)&nbr);
 }
 
-void		print_file(char *s)
+void	print_file(char *s)
 {
 	int		i;
 

@@ -11,11 +11,11 @@
 # **************************************************************************** #
 
 NAME	= lem_in
+ARCHIVE	= libft/libft.a
 AUTHOR	= rpapagna
 CFLAGS	= -Wall -Werror -Wextra -g
 
 #PATHS
-LIB		= .libft.a
 SRC_PATH= srcs/
 INC_PATH= includes/
 OBJ_PATH= obj
@@ -30,7 +30,7 @@ SRCS	= add_edge.c \
 		create_graph.c \
 		find_path.c \
 		graph_undirected.c \
-		lem-in.c \
+		lem_in.c \
 		path_info.c \
 		path_matrix.c \
 		print.c \
@@ -48,11 +48,13 @@ OBJ		= $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
 all: $(NAME)
 
 clean:
+	@make -C libft clean
 	@printf "[$(RED)clean   obj$(NC)]\t[:#         :]\r"
 	@rm -rf $(OBJ_PATH)
 	@printf "[$(RED)clean   obj$(NC)]\t[:##########:]\n"
 
 fclean: clean
+	@make -C libft fclean
 	@printf "[$(RED)full  clean$(NC)]\t[:#         :]\r"
 	@rm -rf $(NAME).dSYM
 	@printf "[$(RED)full  clean$(NC)]\t[:###       :]\r"
@@ -65,9 +67,9 @@ fclean: clean
 
 re: fclean all
 
-$(NAME): $(OBJ)
+$(NAME): $(ARCHIVE) $(OBJ)
 	@printf "[$(NAME)]\t[:########  :]\r"	
-	@gcc $(CFLAGS) $(OBJ_PATH)/*.o $(LIB) -o $(NAME)
+	@gcc $(CFLAGS) $(OBJ_PATH)/*.o $(ARCHIVE) -o $(NAME)
 	@printf "[$(GREEN)$(NAME)$(NC)]\t[:##########:]\n"	
 	@printf "to run:\n"
 	@printf "./lem_in < <path to map>\n"
@@ -79,3 +81,6 @@ $(OBJ_PATH):
 $(OBJ_PATH)/%.o: srcs/%.c $(INC_PATH)/*.h | $(OBJ_PATH)
 	@printf "[$(NAME)]\t[:######    :]\r"
 	@gcc $(CFLAGS) -I $(INC_PATH) -o $@ -c $<
+
+$(ARCHIVE):
+	@make -C libft

@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-int		validate(t_lem_in *lem_in)
+int	validate(t_lem_in *lem_in)
 {
-	if (!lem_in->ants || !lem_in->start_id || !lem_in->end_id ||\
+	if (!lem_in->ants || !lem_in->start_id || !lem_in->end_id || \
 		!lem_in->adj_list || (lem_in->count_paths && !lem_in->path[0][0]))
 		return (1);
 	return (0);

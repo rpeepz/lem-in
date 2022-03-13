@@ -40,13 +40,13 @@
         * @param        x x coodinate
         * @param        y y coodinate
 **/
-typedef struct		s_point
+typedef struct s_point
 {
 	size_t			x;
 	size_t			y;
 }					t_point;
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	size_t			content_size;

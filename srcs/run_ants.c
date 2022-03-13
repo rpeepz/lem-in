@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lem-in.h"
+#include "lemin.h"
 
-static int		**ant_farm(int n)
+static int	**ant_farm(int n)
 {
 	int		**a;
 	int		i;
 
-	a = ft_memalloc(sizeof(int*) * n);
+	a = ft_memalloc(sizeof(int *) * n);
 	i = 0;
 	while (i < n)
 	{
@@ -27,7 +27,7 @@ static int		**ant_farm(int n)
 	return (a);
 }
 
-static void		ant_continue(t_lem_in *lem_in, int **farm)
+static void	ant_continue(t_lem_in *lem_in, int **farm)
 {
 	int		i;
 	int		p;
@@ -50,7 +50,7 @@ static void		ant_continue(t_lem_in *lem_in, int **farm)
 	}
 }
 
-static void		ant_start(t_lem_in *lem_in, int **farm, int **path_info, int n)
+static void	ant_start(t_lem_in *lem_in, int **farm, int **path_info, int n)
 {
 	int		i;
 	int		j;
@@ -78,11 +78,11 @@ static void		ant_start(t_lem_in *lem_in, int **farm, int **path_info, int n)
 	}
 }
 
-static void		move_ants(int **path_info, t_lem_in *lem_in, int n)
+static void	move_ants(int **path_info, t_lem_in *lem_in, int n)
 {
 	int		**farm;
 	int		i;
-	
+
 	farm = ant_farm(lem_in->ants);
 	i = 0;
 	while (!i || continue_movement(farm, lem_in->ants))
@@ -95,13 +95,13 @@ static void		move_ants(int **path_info, t_lem_in *lem_in, int n)
 	i = 0;
 	while (i < lem_in->ants)
 	{
-		ft_memdel((void**)&farm[i]);
+		ft_memdel((void **)&farm[i]);
 		++i;
 	}
-	ft_memdel((void**)&farm);
+	ft_memdel((void **)&farm);
 }
 
-void			run_ants(t_lem_in *lem_in)
+void	run_ants(t_lem_in *lem_in)
 {
 	int		**path_info;
 	int		n;
@@ -114,8 +114,8 @@ void			run_ants(t_lem_in *lem_in)
 	i = 0;
 	while (i < (int)lem_in->count_paths)
 	{
-		ft_memdel((void**)&path_info[i]);
+		ft_memdel((void **)&path_info[i]);
 		++i;
 	}
-	ft_memdel((void**)&path_info);
+	ft_memdel((void **)&path_info);
 }
