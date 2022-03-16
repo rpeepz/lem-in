@@ -34,7 +34,11 @@ void	add_edge(char *line, t_lem_in *lem_in)
 		}
 		node = node->next;
 	}
+	printf("add edge buf pointer = %p\n", buf);
 	while (*buf)
+	{
+		printf("buf %p = (%s)\n", *buf, *buf);
 		free(*(buf)++);
+	}
 	free(buf);
 }

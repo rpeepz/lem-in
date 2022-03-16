@@ -27,8 +27,12 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	new_node->next = tmp;
 	lem_in->adj_list = new_node;
 	++lem_in->count_nodes;
+	printf("create graph buf pointer = %p\n", buf);
 	while (*buf)
+	{
+		printf("buf %p = (%s)\n", *buf, *buf);
 		free(*(buf)++);
+	}
 	free(buf);
 }
 
