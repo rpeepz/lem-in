@@ -18,6 +18,7 @@ void	add_edge(char *line, t_lem_in *lem_in)
 	t_edge	*new_edge;
 	t_graph	*node;
 	t_edge	*edge;
+	int		i;
 
 	buf = split_line(line, '-');
 	new_edge = ft_memalloc(sizeof(t_edge));
@@ -34,11 +35,8 @@ void	add_edge(char *line, t_lem_in *lem_in)
 		}
 		node = node->next;
 	}
-	printf("add edge buf pointer = %p\n", buf);
-	while (*buf)
-	{
-		printf("buf %p = (%s)\n", *buf, *buf);
-		free(*(buf)++);
-	}
-	free(buf);
+	i = -1;
+	while (buf[++i])
+		ft_memdel((void **)&buf[i]);
+	ft_memdel((void **)&buf);
 }

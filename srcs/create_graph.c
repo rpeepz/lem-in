@@ -17,6 +17,7 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	char	**buf;
 	t_graph	*new_node;
 	t_graph	*tmp;
+	int		i;
 
 	buf = split_line(line, ' ');
 	new_node = ft_memalloc(sizeof(t_graph));
@@ -27,13 +28,10 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	new_node->next = tmp;
 	lem_in->adj_list = new_node;
 	++lem_in->count_nodes;
-	printf("create graph buf pointer = %p\n", buf);
-	while (*buf)
-	{
-		printf("buf %p = (%s)\n", *buf, *buf);
-		free(*(buf)++);
-	}
-	free(buf);
+	i = -1;
+	while (buf[++i])
+		ft_memdel((void **)&buf[i]);
+	ft_memdel((void **)&buf);
 }
 
 int	create_graph(char *line, t_lem_in *lem_in)
