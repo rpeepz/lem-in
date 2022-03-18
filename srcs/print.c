@@ -15,16 +15,19 @@
 void	print_movement(int a, char *s)
 {
 	char	*nbr;
+	char	*out;
 
+	if (!s)
+		return ;
 	nbr = ft_itoa(a);
-	ft_putchar('L');
-	ft_putstr(nbr);
-	ft_putchar('-');
-	a = -1;
-	if (s)
-		while (s[++a])
-			ft_putchar(s[a]);
+	out = ft_memalloc(ft_strlen(nbr) + ft_strlen(s) + 3);
+	ft_strcat(out, "L");
+	ft_strcat(out, nbr);
+	ft_strcat(out, "-");
+	ft_strcat(out, s);
+	ft_putstr(out);
 	ft_memdel((void **)&nbr);
+	ft_memdel((void **)&out);
 }
 
 void	print_file(char *s)
