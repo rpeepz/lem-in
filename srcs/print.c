@@ -21,8 +21,9 @@ void	print_movement(int a, char *s)
 	ft_putstr(nbr);
 	ft_putchar('-');
 	a = -1;
-	while (s[++a])
-		ft_putchar(s[a]);
+	if (s)
+		while (s[++a])
+			ft_putchar(s[a]);
 	ft_memdel((void **)&nbr);
 }
 
