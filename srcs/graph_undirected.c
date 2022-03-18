@@ -29,39 +29,37 @@ static int	count_edges(t_edge *edges)
 
 static t_graph	*push_start_to_front(t_graph *adj_list, char *start_id)
 {
-	t_graph	*head;
 	t_graph	*prev;
 	t_graph	*tmp;
 
 	if (ft_strcmp(start_id, adj_list->node_id))
 	{
-		head = adj_list;
-		while (ft_strcmp(start_id, adj_list->node_id))
+		tmp = adj_list;
+		while (ft_strcmp(start_id, tmp->node_id))
 		{
-			prev = adj_list;
-			adj_list = adj_list->next;
+			prev = tmp;
+			tmp = tmp->next;
 		}
-		prev->next = adj_list->next;
-		tmp = head;
-		adj_list->next = tmp;
+		prev->next = tmp->next;
+		tmp->next = adj_list;
+		adj_list = tmp;
 	}
 	return (adj_list);
 }
 
-static void	append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
+static void	append_edge_to_node(t_graph *n, char *node_id)
 {
-	t_graph		*n;
 	t_edge		*new_edge;
 	t_edge		*head;
 
-	n = adj_list;
-	while (ft_strcmp(n->node_id, edge->dest_id))
-		n = n->next;
 	head = n->edges;
 	while (n->edges)
 	{
 		if (!ft_strcmp(n->edges->dest_id, node_id))
+		{
+			n->edges = head;
 			return ;
+		}
 		if (!n->edges->next)
 			break ;
 		n->edges = n->edges->next;
@@ -80,6 +78,7 @@ static void	append_edge_to_node(t_graph *adj_list, t_edge *edge, char *node_id)
 void	graph_undirected(t_lem_in *lem_in)
 {
 	t_graph		*node;
+	t_graph		*tmp;
 	t_edge		*edge;
 
 	node = lem_in->adj_list;
@@ -88,7 +87,10 @@ void	graph_undirected(t_lem_in *lem_in)
 		edge = node->edges;
 		while (edge)
 		{
-			append_edge_to_node(lem_in->adj_list, edge, node->node_id);
+			tmp = lem_in->adj_list;
+			while (ft_strcmp(tmp->node_id, edge->dest_id))
+				tmp = tmp->next;
+			append_edge_to_node(tmp, node->node_id);
 			edge = edge->next;
 		}
 		node = node->next;

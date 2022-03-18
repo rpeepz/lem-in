@@ -74,6 +74,7 @@ static int	get_file(t_lem_in *lem_in)
 			err = 1;
 			break ;
 		}
+		ft_memdel((void **)&buf);
 	}
 	ft_memdel((void **)&buf);
 	return (err);

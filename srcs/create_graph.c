@@ -6,7 +6,7 @@
 /*   By: rpapagna <rpapagna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/12 09:48:12 by rpapagna          #+#    #+#             */
-/*   Updated: 2022/01/12 12:21:35 by rpapagna         ###   ########.fr       */
+/*   Updated: 2022/03/18 16:15:35 by rpapagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,16 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	new_node->node_id = ft_strdup(buf[0]);
 	new_node->location.x = (size_t)ft_atoi(buf[1]);
 	new_node->location.y = (size_t)ft_atoi(buf[2]);
-	tmp = lem_in->adj_list;
-	new_node->next = tmp;
-	lem_in->adj_list = new_node;
+	new_node->next = NULL;
+	if (lem_in->adj_list)
+	{
+		tmp = lem_in->adj_list;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new_node;
+	}
+	else
+		lem_in->adj_list = new_node;
 	++lem_in->count_nodes;
 	i = -1;
 	while (buf[++i])

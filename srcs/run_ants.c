@@ -36,6 +36,9 @@ static void	ant_continue(t_lem_in *lem_in, int **farm)
 	p = 0;
 	while (i < lem_in->ants)
 	{
+		if (farm[i][1] == -1 || \
+			lem_in->path[farm[i][0]][farm[i][1]] == lem_in->end_id)
+			farm[i][1] = -1;
 		if (farm[i][1] > 0)
 		{
 			if (p)
@@ -43,8 +46,6 @@ static void	ant_continue(t_lem_in *lem_in, int **farm)
 			++farm[i][1];
 			print_movement(i + 1, lem_in->path[farm[i][0]][farm[i][1]]);
 			p = 1;
-			if (lem_in->path[farm[i][0]][farm[i][1]] == lem_in->end_id)
-				farm[i][1] = -1;
 		}
 		++i;
 	}
