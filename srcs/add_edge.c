@@ -21,13 +21,13 @@ void	add_edge(char *line, t_lem_in *lem_in)
 	int		i;
 
 	buf = split_line(line, '-');
-	new_edge = ft_memalloc(sizeof(t_edge));
-	new_edge->dest_id = ft_strdup(buf[1]);
 	node = lem_in->adj_list;
 	while (node)
 	{
 		if (!ft_strcmp(node->node_id, buf[0]))
 		{
+			new_edge = ft_memalloc(sizeof(t_edge));
+			new_edge->dest_id = ft_strdup(buf[1]);
 			edge = node->edges;
 			new_edge->next = edge;
 			node->edges = new_edge;
