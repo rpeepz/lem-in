@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= lem_in
+NAME	= lem-in
 ARCHIVE	= libft/libft.a
 AUTHOR	= rpapagna
 CFLAGS	= -Wall -Werror -Wextra -g
@@ -72,7 +72,7 @@ $(NAME): $(ARCHIVE) $(OBJ)
 	@gcc $(CFLAGS) $(OBJ_PATH)/*.o $(ARCHIVE) -o $(NAME)
 	@printf "[$(GREEN)$(NAME)$(NC)]\t[:##########:]\n"	
 	@printf "to run:\n"
-	@printf "./lem_in < <path to map>\n"
+	@printf "./lem-in < <path to map>\n"
 
 $(OBJ_PATH):
 	@printf "[$(NAME)]\t[:#         :]\r"	
