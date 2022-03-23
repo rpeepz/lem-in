@@ -48,13 +48,11 @@ OBJ		= $(addprefix $(OBJ_PATH)/,$(SRCS:.c=.o))
 all: $(NAME)
 
 clean:
-	@make -C libft clean
 	@printf "[$(RED)clean   obj$(NC)]\t[:#         :]\r"
 	@rm -rf $(OBJ_PATH)
 	@printf "[$(RED)clean   obj$(NC)]\t[:##########:]\n"
 
 fclean: clean
-	@make -C libft fclean
 	@printf "[$(RED)full  clean$(NC)]\t[:#         :]\r"
 	@rm -rf $(NAME).dSYM
 	@printf "[$(RED)full  clean$(NC)]\t[:###       :]\r"
