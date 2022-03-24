@@ -50,6 +50,9 @@ static void	queue_neighbors(t_lem_in *lem_in, t_graph *pop, t_queue *queue)
 	}
 }
 
+/*
+*	use a breadth first search algorithm to navigate from the start to end
+*/
 static void	bfs(t_lem_in *lem_in)
 {
 	t_queue		*queue;
@@ -74,6 +77,10 @@ static void	bfs(t_lem_in *lem_in)
 	ft_memdel((void **)&queue);
 }
 
+/*
+*	search through adjacency list and store each possible path in "path" array
+*	using a bfs.
+*/
 void	find_path(t_lem_in *lem_in)
 {
 	int		k;

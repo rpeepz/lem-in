@@ -27,6 +27,9 @@ static int	count_edges(t_edge *edges)
 	return (n);
 }
 
+/*
+*	insert node with matching start_id to the front of the adjacency list
+*/
 static t_graph	*push_start_to_front(t_graph *adj_list, char *start_id)
 {
 	t_graph	*prev;
@@ -75,6 +78,9 @@ static void	append_edge_to_node(t_graph *n, char *node_id)
 		n->edges = new_edge;
 }
 
+/*
+*	convert the directed adjacency list to an undirected graph
+*/
 void	graph_undirected(t_lem_in *lem_in)
 {
 	t_graph		*node;

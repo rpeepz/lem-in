@@ -12,6 +12,13 @@
 
 #include "lemin.h"
 
+/*
+*	create n int arrays, where n is the number of valid paths
+*
+*	each int array has 2 indices:
+*	[0] = total steps in path
+*	[1] = total ants to flow in path
+*/
 int	**set_path_info(char ***path, int n)
 {
 	int		**a;
@@ -34,6 +41,9 @@ int	**set_path_info(char ***path, int n)
 	return (a);
 }
 
+/*
+*	use a min differential to find optimal ant placement from the given paths
+*/
 static int	find_best_path(int **path_info, int n)
 {
 	int		i;
@@ -51,6 +61,10 @@ static int	find_best_path(int **path_info, int n)
 	return (0);
 }
 
+/*
+*	assign a path to each ant
+*	returns the number of concurent ants to flow
+*/
 int	set_ants_in_path(int **path_info, t_lem_in *lem_in)
 {
 	int		ants;

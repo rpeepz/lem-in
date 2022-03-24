@@ -12,6 +12,9 @@
 
 #include "lemin.h"
 
+/*
+*	free all memory used by program
+*/
 static void	die(t_lem_in *lem_in)
 {
 	t_graph	*graph;
@@ -38,6 +41,9 @@ static void	die(t_lem_in *lem_in)
 	path_matrix_destroy(lem_in->path, lem_in->count_paths);
 }
 
+/*
+*	check contents of line and save in memory the useful file info
+*/
 static void	save_file(char *buf, t_lem_in *lem_in)
 {
 	char	*tmp;
@@ -52,6 +58,11 @@ static void	save_file(char *buf, t_lem_in *lem_in)
 	}
 }
 
+/*
+*	read standard input and dispatch based on each line read.
+*
+*	one case here saves the number of ants to be used in the algorithm
+*/
 static int	get_file(t_lem_in *lem_in)
 {
 	char	*buf;
@@ -80,6 +91,13 @@ static int	get_file(t_lem_in *lem_in)
 	return (err);
 }
 
+/*
+*	read entire file, check for errors and validate input.
+*
+*	convert input into undirected graph and search for possible path(s).
+*
+*	revalidate: upon success run ants, exit.
+*/
 int	main(void)
 {
 	t_lem_in	lem_in;

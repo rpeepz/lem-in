@@ -41,6 +41,9 @@ void	add_adj_list_node(char *line, t_lem_in *lem_in)
 	ft_memdel((void **)&buf);
 }
 
+/*
+*	perfrom checks on line and store in memory a new node or new edge
+*/
 int	create_graph(char *line, t_lem_in *lem_in)
 {
 	if (ft_strrchri(line, ' ') && (!(line[0] == '#' || line[0] == 'L')))
