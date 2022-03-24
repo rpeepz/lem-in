@@ -63,19 +63,26 @@ typedef struct s_graph
 **/
 typedef struct s_lem_in
 {
-	int		check_start;
-	int		check_end;
-	int		ants;
-	int		count_nodes;
-	int		count_paths;
-	t_graph	*adj_list;
-	char	*file;
-	char	*start_id;
-	char	*end_id;
-	char	**visited;
-	char	***prev;
-	char	***path;
-}			t_lem_in;
+	int			check_start;
+	int			check_end;
+	int			ants;
+	int			count_nodes;
+	int			count_paths;
+	t_graph		*adj_list;
+	char		*file;
+	char		*start_id;
+	char		*end_id;
+	char		**visited;
+	char		***prev;
+	char		***path;
+}				t_lem_in;
+
+typedef struct s_solution
+{
+	int			**path_info;
+	int			**farm;
+	int			n;
+}				t_solution;
 
 char				**split_line(char *s, char c);
 int					reverse_array(char **array, int n);

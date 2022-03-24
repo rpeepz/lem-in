@@ -27,7 +27,7 @@ static int	**ant_farm(int n)
 	return (a);
 }
 
-static void	ant_continue(t_lem_in *lem_in, int **farm)
+static int	ant_continue(t_lem_in *lem_in, int **farm)
 {
 	int		i;
 	int		p;
@@ -49,29 +49,31 @@ static void	ant_continue(t_lem_in *lem_in, int **farm)
 		}
 		++i;
 	}
+	return (p);
 }
 
-static void	ant_start(t_lem_in *lem_in, int **farm, int **path_info, int n)
+static void	ant_start(t_lem_in *lem_in, t_solution *s, int t)
 {
 	int		i;
 	int		j;
 
 	i = -1;
-	while (++i < n)
+	while (++i < s->n)
 	{
-		if (path_info[i][1])
+		if (s->path_info[i][1])
 		{
 			j = -1;
 			while (++j < lem_in->ants)
 			{
-				if (farm[j][1] == 0)
+				if (s->farm[j][1] == 0)
 				{
-					if (j)
+					if (i || t)
 						ft_putchar(' ');
-					--path_info[i][1];
-					farm[j][0] = i;
-					farm[j][1] = 1;
-					print_movement(j + 1, lem_in->path[farm[j][0]][farm[j][1]]);
+					--(s->path_info[i][1]);
+					s->farm[j][0] = i;
+					s->farm[j][1] = 1;
+					print_movement(j + 1, \
+					lem_in->path[s->farm[j][0]][s->farm[j][1]]);
 					break ;
 				}
 			}
@@ -79,44 +81,43 @@ static void	ant_start(t_lem_in *lem_in, int **farm, int **path_info, int n)
 	}
 }
 
-static void	move_ants(int **path_info, t_lem_in *lem_in, int n)
+static void	move_ants(t_lem_in *lem_in, t_solution *s)
 {
-	int		**farm;
-	int		i;
+	int	i;
+	int	t;
 
-	farm = ant_farm(lem_in->ants);
+	s->farm = ant_farm(lem_in->ants);
 	i = 0;
-	while (!i || continue_movement(farm, lem_in->ants))
+	while (!i || continue_movement(s->farm, lem_in->ants))
 	{
-		i = 1;
-		ant_continue(lem_in, farm);
-		ant_start(lem_in, farm, path_info, n);
+		t = ant_continue(lem_in, s->farm);
+		ant_start(lem_in, s, t);
 		ft_putchar('\n');
+		i = 1;
 	}
 	i = 0;
 	while (i < lem_in->ants)
 	{
-		ft_memdel((void **)&farm[i]);
+		ft_memdel((void **)&s->farm[i]);
 		++i;
 	}
-	ft_memdel((void **)&farm);
+	ft_memdel((void **)&s->farm);
 }
 
 void	run_ants(t_lem_in *lem_in)
 {
-	int		**path_info;
-	int		n;
-	int		i;
+	t_solution	s;
+	int			i;
 
-	path_info = set_path_info(lem_in->path, lem_in->count_paths);
-	n = set_ants_in_path(path_info, lem_in);
+	s.path_info = set_path_info(lem_in->path, lem_in->count_paths);
+	s.n = set_ants_in_path(s.path_info, lem_in);
 	print_file(lem_in->file);
-	move_ants(path_info, lem_in, n);
+	move_ants(lem_in, &s);
 	i = 0;
 	while (i < (int)lem_in->count_paths)
 	{
-		ft_memdel((void **)&path_info[i]);
+		ft_memdel((void **)&s.path_info[i]);
 		++i;
 	}
-	ft_memdel((void **)&path_info);
+	ft_memdel((void **)&s.path_info);
 }
