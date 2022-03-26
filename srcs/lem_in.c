@@ -68,6 +68,7 @@ static int	get_file(t_lem_in *lem_in)
 	char	*buf;
 	int		err;
 
+	buf = NULL;
 	err = 0;
 	lem_in->file = ft_strdup("");
 	while ((get_next_line(0, &buf)) > 0)
