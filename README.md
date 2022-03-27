@@ -130,5 +130,5 @@ You can find me on:
 _This project was attempted for learning purposes only. This repo may not be kept up to date and I cannot guarantee that it will work on your future machines. You are welcome to use and learn from this as you want, but do not implement code that you do not understand. These sources listed above have been invaluable and I advise you to do research on the subject before trying to copy the code you see here._
 
 [42]: http://42.us.org "42 USA"
-[pdf1]:  https://github.com/rpeepz/ft_ssl/blob/main/Lem-in.en.pdf "Lem-in"
+[pdf1]:  https://github.com/rpeepz/lem-in/blob/main/Lem-in.en.pdf "Lem-in"
 [pull request]: https://github.com/rpeepz/lem-in/pulls "pull away"
