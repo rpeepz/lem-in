@@ -1,4 +1,6 @@
-BG_IMAGE	= 'dirt_small.gif'
-MAX_NODES	= 50
+BG_IMAGE	= 'dirt_med.gif'
+MAX_NODES	= 105
 CIR_SIZE	= 20
 CIR_COLOR	= 'Red'
+ANIM_ITER	= 20
+PAUSE		= 1

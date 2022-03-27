@@ -40,11 +40,11 @@ def process_nodes(node_list):
 def get_data_from_stdin():
 	text_data = sys.stdin.read()
 	iter_node, iter_edge, iter_path = itertools.tee(text_data.splitlines(), 3)
-	next(iter_node)
+	ants = next(iter_node)
 	nodes = process_nodes([line for line in iter_node if line if '-' not in line])
 	edges = [line for line in iter_edge if line if 'L' not in line if '-' in line]
 	paths = [line for line in iter_path if line if 'L' in line]
-	return nodes, edges, paths
+	return nodes, edges, paths, int(ants)
 
 def map_range(s, a1, a2, b1, b2):
 	if a1 >= a2:
@@ -53,7 +53,6 @@ def map_range(s, a1, a2, b1, b2):
 	return t
 
 def translate_position(circles):
-	'''set input limits'''
 	max_x = max_y = 0
 	min_x = min_y = 10000
 	for _, __, center in circles:
@@ -67,7 +66,6 @@ def translate_position(circles):
 			max_y = y
 		if y < min_y:
 			min_y = y
-	'''set range limts'''
 	min_w = min_h = CIR_SIZE * 1.25
 	max_w = WIDTH - CIR_SIZE * 1.25
 	max_h = HEIGHT - CIR_SIZE * 1.25
@@ -93,10 +91,12 @@ def draw_graph(nodes, edges):
 	circles = translate_position(circles)
 	for edge in edges:
 		edge = edge.split('-')
+		point1 = None
+		point2 = None
 		for _, name, center in circles:
-			if edge[0] in name:
+			if edge[0] in name and not point1:
 				point1 = center
-			elif edge[1] in name:
+			elif edge[1] in name and not point2:
 				point2 = center
 		line = Line(point1, point2)
 		line.setOutline('white')
@@ -104,12 +104,52 @@ def draw_graph(nodes, edges):
 		line.draw(win)
 	for cir, _, __ in circles:
 		cir.draw(win)
+	return circles
+
+def	animate_ants(circles, turn, ants):
+	new_center = []
+	old_center = []
+	for who, to in turn:
+		old_center.append(ants[who - 1].getAnchor())
+		for _, name, center in circles:
+			if to in name:
+				new_center.append(center)
+				break
+	for _ in range(ANIM_ITER):
+		for i, v in enumerate(turn):
+			who, _ = v
+			dx = (new_center[i].x - old_center[i].x) / ANIM_ITER
+			dy = (new_center[i].y - old_center[i].y) / ANIM_ITER
+			ants[who - 1].move(dx, dy)
+	time.sleep(PAUSE)
+
+def load_ant_image():
+	cwd = os.path.dirname(os.path.realpath(__file__))
+	return Image(Point(0,0), f'{cwd}/ant.gif')
+
+def	run_ants(circles, paths, n_ants):
+	ant_image = load_ant_image()
+	ant_image.move(circles[0][2].x, circles[0][2].y)
+	ants = []
+	for i in range(n_ants):
+		ants.append(ant_image.clone())
+	for a in ants:
+		a.draw(win)
+	for i, movements in enumerate(paths):
+		round = movements.split()
+		turn = []
+		for move in round:
+			single = move.split('-')
+			who = single[0].replace('L','')
+			to = single[1]
+			turn.append(tuple((int(who), to)))
+		animate_ants(circles, turn, ants)
 
 if __name__ == '__main__':
-	nodes, edges, paths  = get_data_from_stdin()
-#	print(paths)
+	nodes, edges, paths, ants  = get_data_from_stdin()
+	circles = draw_graph(nodes, edges)
+	run_ants(circles, paths, ants)
 
-	draw_graph(nodes, edges)
 	win.getMouse()
 	win.close()
 
