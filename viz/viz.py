@@ -11,7 +11,8 @@ def draw_main_window():
 	w = bg_image.getWidth()
 	h = bg_image.getHeight()
 	bg_image.move(w / 2, h / 2)
-	win = GraphWin('Lem-in Visualizer', w, h)
+	win = GraphWin('Lem-in Visualizer', w, h*.8)
+	win.master.geometry(f'{w}x{h}+0+0') # Set the window to open at the top left corner
 	bg_image.draw(win)
 	return win
 
@@ -39,6 +40,8 @@ def process_nodes(node_list):
 
 def get_data_from_stdin():
 	text_data = sys.stdin.read()
+	if text_data == "ERROR\n":
+		return -1, -1, -1, -1
 	iter_node, iter_edge, iter_path = itertools.tee(text_data.splitlines(), 3)
 	ants = next(iter_node)
 	nodes = process_nodes([line for line in iter_node if line if '-' not in line])
@@ -70,12 +73,18 @@ def translate_position(circles):
 	max_w = WIDTH - CIR_SIZE * 1.25
 	max_h = HEIGHT - CIR_SIZE * 1.25
 	new_circles = []
-	for cir, name, center in circles:
+	for idx, items in enumerate(circles):
+		cir, name, center = items
 		x = map_range(int(center.x), min_x, max_x, min_w, max_w)
 		y = map_range(int(center.y), min_y, max_y, min_h, max_h)
 		center = Point(x, y)
 		cir = Circle(center, CIR_SIZE)
-		cir.setFill(CIR_COLOR)
+		if idx == 0: #FIRST
+			cir.setFill(CIR_COLOR_F)
+		elif items == circles[-1]: #LAST
+			cir.setFill(CIR_COLOR_L)
+		else:
+			cir.setFill(CIR_COLOR)
 		new_circles.append(tuple((cir, name, center)))
 	return new_circles
 
@@ -145,11 +154,21 @@ def	run_ants(circles, paths, n_ants):
 			turn.append(tuple((int(who), to)))
 		animate_ants(circles, turn, ants)
 
+def key_pressed(key):
+	if key.keysym == 'Escape':
+		win.close()
+		exit()
+
+win.bind_all('<Key>', key_pressed)
+
 if __name__ == '__main__':
 	nodes, edges, paths, ants  = get_data_from_stdin()
-	circles = draw_graph(nodes, edges)
-	run_ants(circles, paths, ants)
+	if nodes != -1:
+		circles = draw_graph(nodes, edges)
+		run_ants(circles, paths, ants)
+		win.getMouse()
+	else:
+		print("ERROR")
 
-	win.getMouse()
 	win.close()
 

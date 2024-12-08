@@ -23,6 +23,7 @@ OBJ_PATH= obj
 #COLOR OUTPUT OPIONS
 RED		=\033[0;31m
 GREEN	=\033[0;32m
+YELLOW	=\033[0;33m
 NC		=\033[0m
 
 SRCS	= add_edge.c \
@@ -68,9 +69,13 @@ re: fclean all
 $(NAME): $(ARCHIVE) $(OBJ)
 	@printf "[$(NAME)]\t[:########  :]\r"	
 	@gcc $(CFLAGS) $(OBJ_PATH)/*.o $(ARCHIVE) -o $(NAME)
-	@printf "[$(GREEN)$(NAME)$(NC)]\t[:##########:]\n"	
+	@printf "[$(GREEN)$(NAME)$(NC)]\t[:##########:]\n\n"
+
+	@printf "$(YELLOW)Maps are available in 'm/' and 'maps/' directories$(NC) \n"
 	@printf "to run:\n"
 	@printf "./lem-in < <path to map>\n"
+	@printf "$(GREEN)to run with visualizer:\n$(NC)"
+	@printf "./lem-in < <path to map> | python3 viz/viz.py\n"
 
 $(OBJ_PATH):
 	@printf "[$(NAME)]\t[:#         :]\r"	
