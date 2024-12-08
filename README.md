@@ -23,6 +23,7 @@
 ## Objective  
 This projects goal is to create a "Hex" simulator.
 
+![test](https://github.com/rpeepz/lem-in/blob/5949ade1def7ccd0c797044a5e791ef865864ae2/Lemin%20Viz.png "sample") <br>
 ---  
 
 
@@ -46,6 +47,9 @@ Usage With Vizualizer
 ```
 ./lem-in < [file] | python3 viz/viz.py
 ```
+
+*Maps are included in the directories `m/` and `maps/`*
+
 Make sure you have the required [dependencies](#dependencies) before proceeding.  
 For instructions and/or greater detail refer to the project's [pdfs](#subject-pdf)  
 
@@ -85,7 +89,7 @@ viz/
 ├── settings.py
 └── viz.py
 
-viz/
+includes/
 └── lemin.h
 
 3 directories, 22 files
